@@ -1,7 +1,7 @@
 {
 	"name": "studiomitte/sendinblue",
 	"type": "typo3-cms-extension",
-	"description": "Integration of newsletter SaaS solution sendinblue.com",
+	"description": "Integration of newsletter SaaS solution sendinblue.com into TYPO3 CMS",
 	"authors": [
 		{
 			"name": "Georg Ringer",

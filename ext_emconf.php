@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Sendinblue',
-    'description' => '',
+    'description' => 'Integration of newsletter SaaS solution sendinblue.com into TYPO3 CMS',
     'category' => 'plugin',
     'author' => 'Georg Ringer',
     'author_email' => 'gr@studiomitte.com',
