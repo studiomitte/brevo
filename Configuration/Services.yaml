@@ -1,0 +1,11 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  StudioMitte\Sendinblue\Command\TestCommand:
+    tags:
+      - name: 'console.command'
+        command: 'sendinblue:test'
+        schedulable: false

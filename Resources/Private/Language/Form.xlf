@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+ <file source-language="en" date="2020-11-23T10:33:29+01:00">
+  <body>
+   <trans-unit id="finisher.Sendinblue.label" resname="finisher.Sendinblue.label">
+    <source>Sendinblue Finisher</source>
+   </trans-unit>
+   <trans-unit id="finisher.Sendinblue.field.enable" resname="finisher.Sendinblue.field.enable">
+    <source>Checkbox to enable</source>
+   </trans-unit>
+   <trans-unit id="finisher.Sendinblue.field.email" resname="finisher.Sendinblue.field.email">
+    <source>Field of email address</source>
+   </trans-unit>
+   <trans-unit id="finisher.Sendinblue.field.firstName" resname="finisher.Sendinblue.field.firstName">
+    <source>Field of First name</source>
+   </trans-unit>
+   <trans-unit id="finisher.Sendinblue.field.lastName" resname="finisher.Sendinblue.field.lastName">
+    <source>Field of Last name</source>
+   </trans-unit>
+   <trans-unit id="finisher.Sendinblue.field.tracking" resname="finisher.Sendinblue.field.tracking">
+    <source>Additional tracking information</source>
+   </trans-unit>
+  <trans-unit id="finisher.Sendinblue.field.additionalListIds" resname="finisher.Sendinblue.field.additionalListIds">
+	  <source>Additional list ids</source>
+  </trans-unit>
+  </body>
+ </file>
+</xliff>

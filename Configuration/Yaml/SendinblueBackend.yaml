@@ -1,0 +1,120 @@
+TYPO3:
+  CMS:
+    Form:
+      prototypes:
+        standard:
+          formElementsDefinition:
+            Form:
+              formEditor:
+                editors:
+                  900:
+                    # Extend finisher drop down
+                    selectOptions:
+                      35:
+                        value: 'Sendinblue'
+                        label: 'finisher.Sendinblue.label'
+                propertyCollections:
+                  finishers:
+                    # add finisher fields
+                    25:
+                      identifier: 'Sendinblue'
+                      editors:
+                        __inheritances:
+                          10: 'TYPO3.CMS.Form.mixins.formElementMixins.BaseCollectionEditorsMixin'
+                        100:
+                          label: 'finisher.Sendinblue.label'
+                        110:
+                          identifier: 'enabled'
+                          templateName: 'Inspector-TextEditor'
+                          label: 'finisher.Sendinblue.field.enable'
+                          propertyPath: 'options.enabled'
+                          enableFormelementSelectionButton: true
+                          propertyValidators:
+                            10: 'NotEmpty'
+                            20: 'FormElementIdentifierWithinCurlyBracesInclusive'
+                        120:
+                          identifier: 'email'
+                          templateName: 'Inspector-TextEditor'
+                          label: 'finisher.Sendinblue.field.email'
+                          propertyPath: 'options.email'
+                          enableFormelementSelectionButton: true
+                          propertyValidators:
+                            10: 'NotEmpty'
+                            20: 'FormElementIdentifierWithinCurlyBracesInclusive'
+                        130:
+                          identifier: 'firstName'
+                          templateName: 'Inspector-TextEditor'
+                          label: 'finisher.Sendinblue.field.firstName'
+                          propertyPath: 'options.firstName'
+                          enableFormelementSelectionButton: true
+                          propertyValidators:
+                            10: 'NotEmpty'
+                            20: 'FormElementIdentifierWithinCurlyBracesInclusive'
+                        131:
+                          identifier: 'lastName'
+                          templateName: 'Inspector-TextEditor'
+                          label: 'finisher.Sendinblue.field.lastName'
+                          propertyPath: 'options.lastName'
+                          enableFormelementSelectionButton: true
+                          propertyValidators:
+                            10: 'NotEmpty'
+                            20: 'FormElementIdentifierWithinCurlyBracesInclusive'
+                        135:
+                            identifier: 'additionalListIds'
+                            templateName: 'Inspector-TextEditor'
+                            label: 'finisher.Sendinblue.field.additionalListIds'
+                            propertyPath: 'options.additionalListIds'
+                            enableFormelementSelectionButton: true
+                            propertyValidators:
+                                20: 'FormElementIdentifierWithinCurlyBracesInclusive'
+                        150:
+                          identifier: 'tracking'
+                          templateName: 'Inspector-TextEditor'
+                          label: 'finisher.Sendinblue.field.tracking'
+                          propertyPath: 'options.tracking'
+          finishersDefinition:
+            Sendinblue:
+              formEditor:
+                iconIdentifier: 'form-finisher'
+                label: 'Sendinblue Finisher'
+                predefinedDefaults:
+                  options:
+                    enabled: ''
+                    firstName: ''
+                    lastName: ''
+                    email: ''
+                    additionalListIds: ''
+                    tracking: 'trackingvalue'
+                # displayed when overriding finisher settings
+              FormEngine:
+                label: 'finisher.Sendinblue.label'
+                elements:
+                  enabled:
+                    label: 'finisher.Sendinblue.field.enable'
+                    config:
+                      type: 'check'
+                  tracking:
+                    label: 'finisher.Sendinblue.field.tracking'
+                    config:
+                      type: 'text'
+                  email:
+                    label: 'finisher.Sendinblue.field.email'
+                    config:
+                      type: 'text'
+                  firstName:
+                    label: 'finisher.Sendinblue.field.firstName'
+                    config:
+                        type: 'text'
+                  lastName:
+                    label: 'finisher.Sendinblue.field.lastName'
+                    config:
+                      type: 'text'
+                  additionalListIds:
+                    label: 'finisher.Sendinblue.field.additionalListIds'
+                    config:
+                      type: 'text'
+          formEditor:
+            translationFile:
+              91818: 'EXT:sendinblue/Resources/Private/Language/Form.xlf'
+            translationFiles:
+              91818: 'EXT:sendinblue/Resources/Private/Language/Form.xlf'

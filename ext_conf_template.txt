@@ -1,0 +1,27 @@
+
+# cat=basic/enable; type=string; label=API Key:The API key
+apiKey =
+
+# cat=basic/enable; type=string; label=Partner Key:The API key
+partnerKey =
+
+# cat=basic/enable; type=string; label=Default Lists:Define lists which are added to new contacts by default
+defaultListIds =
+
+# cat=doi/enable; type=boolean; label=Enable double optin
+doi = 1
+
+# cat=doi/enable; type=int; label=Page ID for redirect:Page used for redirects
+doiRedirectPageId =
+
+# cat=doi/enable; type=int; label=DOI Template:Template ID
+doiTemplateId =
+
+# cat=attributes/enable; type=string; label=Attribute for first name
+attributeFirstName = FIRSTNAME
+
+# cat=attributes/enable; type=string; label=Attribute for last name
+attributeLastName = LASTNAME
+
+# cat=attributes/enable; type=string; label=Attribute for tracking information
+attributeTracking = SOURCE

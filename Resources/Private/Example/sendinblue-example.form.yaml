@@ -1,0 +1,79 @@
+
+renderingOptions:
+  submitButtonLabel: Submit
+type: Form
+identifier: sendinblue
+label: sendinblue
+prototypeName: standard
+finishers:
+  -
+    options:
+      enabled: '{checkbox-1}'
+      firstName: '{text-1}'
+      lastName: '{text-3}'
+      email: '{text-2}'
+      tracking: trackingvalue
+      additionalListIds: '{multicheckbox-1}'
+    identifier: Sendinblue
+  -
+    options:
+      message: 'Thanks for providing all your information'
+      contentElementUid: ''
+    identifier: Confirmation
+renderables:
+  -
+    renderingOptions:
+      previousButtonLabel: 'Previous step'
+      nextButtonLabel: 'Next step'
+    type: Page
+    identifier: page-1
+    label: Step
+    renderables:
+      -
+        defaultValue: ''
+        type: Text
+        identifier: text-1
+        label: Vorname
+        properties:
+          elementDescription: ''
+          fluidAdditionalAttributes:
+            required: required
+        validators:
+          -
+            identifier: NotEmpty
+      -
+        defaultValue: ''
+        type: Text
+        identifier: text-3
+        label: Nachname
+        properties:
+          fluidAdditionalAttributes:
+            required: required
+        validators:
+          -
+            identifier: NotEmpty
+      -
+        defaultValue: ''
+        type: Text
+        identifier: text-2
+        label: Email
+        properties:
+          fluidAdditionalAttributes:
+            required: required
+        validators:
+          -
+            identifier: EmailAddress
+          -
+            identifier: NotEmpty
+      -
+        properties:
+          options:
+            8: 'Interest one with ID 8'
+            15: 'Interest two with ID 15'
+        type: MultiCheckbox
+        identifier: multicheckbox-1
+        label: Interests
+      -
+        type: Checkbox
+        identifier: checkbox-1
+        label: Newsletter

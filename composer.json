@@ -1,0 +1,42 @@
+{
+	"name": "studiomitte/sendinblue",
+	"type": "typo3-cms-extension",
+	"description": "Integration of newsletter SaaS solution sendinblue.com",
+	"authors": [
+		{
+			"name": "Georg Ringer",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/studiomitte/sendinblue/issues",
+		"source": "https://github.com/studiomitte/sendinblue"
+	},
+	"homepage": "https://studiomitte.com",
+	"license": [
+		"GPL-2.0-or-later"
+	],
+	"require": {
+		"typo3/cms-core": "^10.4",
+		"typo3/cms-form": "^10.4",
+		"sendinblue/api-v3-sdk": "^7.3"
+	},
+	"require-dev": {
+		"typo3/testing-framework": "^6.4",
+		"phpunit/phpunit": "^8.5.14"
+	},
+	"autoload": {
+		"psr-4": {
+			"StudioMitte\\Sendinblue\\": "Classes"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"StudioMitte\\Sendinblue\\Tests\\": "Tests"
+		}
+	},
+	"replace": {
+		"studiomitte/sendinblue": "self.version",
+		"typo3-ter/sendinblue": "self.version"
+	}
+}

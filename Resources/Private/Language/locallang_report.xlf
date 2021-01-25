@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+   <file source-language="en" date="2020-11-23T14:17:13+01:00">
+      <body>
+         <trans-unit id="report.title" resname="report.title">
+            <source>SendInBlue</source>
+         </trans-unit>
+         <trans-unit id="report.description" resname="report.description">
+            <source>Information about the integration of SendInBlue</source>
+         </trans-unit>
+         <trans-unit id="account" resname="account">
+            <source>Account</source>
+         </trans-unit>
+         <trans-unit id="contacts" resname="contacts">
+            <source>Contacts</source>
+         </trans-unit>
+         <trans-unit id="contacts.list" resname="contacts.list">
+            <source>Lists</source>
+         </trans-unit>
+         <trans-unit id="contacts.attribute.id" resname="contacts.attribute.id">
+            <source>ID</source>
+         </trans-unit>
+         <trans-unit id="contacts.attribute.name" resname="contacts.attribute.name">
+            <source>Name</source>
+         </trans-unit>
+         <trans-unit id="contacts.attribute.totalSubscriber" resname="contacts.attribute.totalSubscriber">
+            <source>Total Subscriber</source>
+         </trans-unit>
+         <trans-unit id="contacts.attribute.totalBlacklisted" resname="contacts.attribute.totalBlacklisted">
+            <source>Total Blacklisted</source>
+         </trans-unit>
+         <trans-unit id="attributes" resname="attributes">
+            <source>Attributes</source>
+         </trans-unit>
+         <trans-unit id="attributes.attribute.name" resname="attributes.attribute.name">
+            <source>Name</source>
+         </trans-unit>
+         <trans-unit id="attributes.attribute.category" resname="attributes.attribute.category">
+            <source>Category</source>
+         </trans-unit>
+         <trans-unit id="attributes.attribute.type" resname="attributes.attribute.type">
+            <source>Type</source>
+         </trans-unit>
+         <trans-unit id="attributes.attribute.info" resname="attributes.attribute.info">
+            <source>Additional Info</source>
+         </trans-unit>
+         <trans-unit id="attributes.attribute.calculdatedValue" resname="attributes.attribute.calculdatedValue">
+            <source>Calculated Value</source>
+         </trans-unit>
+         <trans-unit id="templates" resname="templates">
+            <source>Templates</source>
+         </trans-unit>
+         <trans-unit id="templates.attribute.id" resname="templates.attribute.id">
+            <source>ID</source>
+         </trans-unit>
+         <trans-unit id="templates.attribute.name" resname="templates.attribute.name">
+            <source>Name</source>
+         </trans-unit>
+         <trans-unit id="templates.attribute.active" resname="templates.attribute.active">
+            <source>is active</source>
+         </trans-unit>
+         <trans-unit id="templates.attribute.testSent" resname="templates.attribute.testSent">
+            <source>Test sent?</source>
+         </trans-unit>
+         <trans-unit id="templates.attribute.sender" resname="templates.attribute.sender">
+            <source>Sender</source>
+         </trans-unit>
+         <trans-unit id="templates.attribute.createdAt" resname="templates.attribute.createdAt">
+            <source>created at</source>
+         </trans-unit>
+         <trans-unit id="templates.attribute.modifiedAt" resname="templates.attribute.modifiedAt">
+            <source>modified at</source>
+         </trans-unit>
+      </body>
+   </file>
+</xliff>
