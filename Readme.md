@@ -3,7 +3,7 @@
 This extension integrates the newsletter SaaS https://sendinblue.com/ into TYPO3.
 Currently this extension supports *only* the form framework of the core but it would be easy to add finishers to powermail.
 
-## Installation && Configuration
+## Installation & Configuration
 
 Currently this extension requires a composer based installation. Use `composer req studiomitte/sendinblue` to install it.
 
