@@ -58,6 +58,18 @@ Getting started with that is also a bit tricky for the 1st time. This is documen
 1. The DOI template needs to be tagged with `optin`.
 2. The button in the DOI template for triggering the confirmation must have as link value `{{ doubleoptin }}`.
 
+### Override global configuration per form
+
+The following configurations can be used to override the global settings
+
+```yaml
+  -
+    options:
+       doiTemplateId: '14'
+       defaultListIds: '12,34'
+    identifier: Sendinblue
+```
+
 ## Author
 
 This extension has been created by [StudioMitte](https://studiomitte.com)

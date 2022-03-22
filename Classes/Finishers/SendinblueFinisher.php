@@ -68,7 +68,7 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
                 $createContact
                     ->setEmail($this->parseOption('email'))
                     ->setIncludeListIds($this->getEnrichedListIds())
-                    ->setTemplateId($this->extensionConfiguration->getDoiTemplateId())
+                    ->setTemplateId($this->getDoiTemplateId())
                     ->setAttributes($this->getAttributes())
                     ->setRedirectionUrl($this->getRedirectionUrl());
                 $apiInstance->createDoiContact($createContact);
@@ -87,6 +87,15 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
         }
     }
 
+    protected function getDoiTemplateId(): int
+    {
+        $doiTemplateId = (int)$this->parseOption('doiTemplateId');
+        if ($doiTemplateId) {
+            return $doiTemplateId;
+        }
+        return $this->extensionConfiguration->getDoiTemplateId();
+    }
+
     protected function newsletterSubscriptionIsEnabled(): bool
     {
         return (bool)$this->parseOption('enabled');
@@ -94,7 +103,12 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
 
     protected function getEnrichedListIds(): array
     {
-        $lists = $this->extensionConfiguration->getDefaultListIds();
+        $defaultListsFromForm = $this->parseOption('defaultListIds');
+        if ($defaultListsFromForm !== null) {
+            $lists = GeneralUtility::intExplode(',', (string)$defaultListsFromForm, true);
+        } else {
+            $lists = $this->extensionConfiguration->getDefaultListIds();
+        }
 
         $additionalLists = $this->parseOption('additionalListIds');
         if ($additionalLists) {
