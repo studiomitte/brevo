@@ -36,7 +36,6 @@
 		}
 	},
 	"replace": {
-		"studiomitte/sendinblue": "self.version",
 		"typo3-ter/sendinblue": "self.version"
 	},
 	 "extra": {
