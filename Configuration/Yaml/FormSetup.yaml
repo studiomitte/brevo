@@ -50,7 +50,6 @@ TYPO3:
                           propertyPath: 'options.firstName'
                           enableFormelementSelectionButton: true
                           propertyValidators:
-                            10: 'NotEmpty'
                             20: 'FormElementIdentifierWithinCurlyBracesInclusive'
                         131:
                           identifier: 'lastName'
@@ -59,7 +58,6 @@ TYPO3:
                           propertyPath: 'options.lastName'
                           enableFormelementSelectionButton: true
                           propertyValidators:
-                            10: 'NotEmpty'
                             20: 'FormElementIdentifierWithinCurlyBracesInclusive'
                         135:
                             identifier: 'additionalListIds'
