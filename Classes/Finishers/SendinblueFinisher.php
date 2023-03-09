@@ -43,7 +43,7 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
         if (!$this->newsletterSubscriptionIsEnabled()) {
             $this->finisherContext->getFinisherVariableProvider()->add(
                 'sendinblue',
-                'subsribed',
+                'data.subscribed',
                 0
             );
             return null;
