@@ -3,26 +3,28 @@ TYPO3:
     Form:
       prototypes:
         standard:
+          formEditor:
+            translationFiles:
+              1483353712: 'EXT:sendinblue/Resources/Private/Language/Form.xlf'
           formElementsDefinition:
             Form:
               formEditor:
                 editors:
                   900:
-                    # Extend finisher drop down
                     selectOptions:
-                      35:
+                      1483353712:
                         value: 'Sendinblue'
                         label: 'finisher.Sendinblue.label'
                 propertyCollections:
                   finishers:
                     # add finisher fields
-                    25:
+                    1483353712:
                       identifier: 'Sendinblue'
                       editors:
-                        __inheritances:
-                          10: 'TYPO3.CMS.Form.mixins.formElementMixins.BaseCollectionEditorsMixin'
                         100:
+                          identifier: header
                           label: 'finisher.Sendinblue.label'
+                          templateName: 'Inspector-CollectionElementHeaderEditor'
                         110:
                           identifier: 'enabled'
                           templateName: 'Inspector-TextEditor'
@@ -72,11 +74,15 @@ TYPO3:
                           templateName: 'Inspector-TextEditor'
                           label: 'finisher.Sendinblue.field.tracking'
                           propertyPath: 'options.tracking'
+                        9999:
+                          identifier: 'removeButton'
+                          templateName: 'Inspector-RemoveElementEditor'
           finishersDefinition:
             Sendinblue:
+              implementationClassName: 'StudioMitte\Sendinblue\Finishers\SendinblueFinisher'
               formEditor:
                 iconIdentifier: 'form-finisher'
-                label: 'Sendinblue Finisher'
+                label: 'finisher.Sendinblue.label'
                 predefinedDefaults:
                   options:
                     enabled: ''
@@ -85,7 +91,7 @@ TYPO3:
                     email: ''
                     additionalListIds: ''
                     tracking: 'trackingvalue'
-                # displayed when overriding finisher settings
+              # displayed when overriding finisher settings
               FormEngine:
                 label: 'finisher.Sendinblue.label'
                 elements:
@@ -104,7 +110,7 @@ TYPO3:
                   firstName:
                     label: 'finisher.Sendinblue.field.firstName'
                     config:
-                        type: 'text'
+                      type: 'text'
                   lastName:
                     label: 'finisher.Sendinblue.field.lastName'
                     config:
@@ -113,8 +119,3 @@ TYPO3:
                     label: 'finisher.Sendinblue.field.additionalListIds'
                     config:
                       type: 'text'
-          formEditor:
-            translationFile:
-              91818: 'EXT:sendinblue/Resources/Private/Language/Form.xlf'
-            translationFiles:
-              91818: 'EXT:sendinblue/Resources/Private/Language/Form.xlf'

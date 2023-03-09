@@ -1,0 +1,15 @@
+module.tx_form {
+    settings {
+        yamlConfigurations {
+            1483353712 = EXT:sendinblue/Configuration/Yaml/FormSetup.yaml
+        }
+    }
+}
+
+plugin.tx_form {
+    settings {
+        yamlConfigurations {
+            1483353712 = EXT:sendinblue/Configuration/Yaml/FormSetup.yaml
+        }
+    }
+}
