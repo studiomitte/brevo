@@ -17,9 +17,9 @@
 		"GPL-2.0-or-later"
 	],
 	"require": {
-		"typo3/cms-core": "^11.5",
-		"typo3/cms-form": "^11.5",
-		"sendinblue/api-v3-sdk": "^7.3"
+		"typo3/cms-core": "^11.5||^12.4",
+		"typo3/cms-form": "^11.5||^12.4",
+		"sendinblue/api-v3-sdk": "^8"
 	},
 	"require-dev": {
 		"typo3/testing-framework": "^6.4",
