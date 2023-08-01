@@ -30,15 +30,14 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
     use LoggerAwareTrait;
 
     /** @var Configuration */
-    protected $extensionConfiguration;
+    protected Configuration $extensionConfiguration;
 
     public function __construct(string $finisherIdentifier = '')
     {
-        parent::__construct($finisherIdentifier);
         $this->extensionConfiguration = new Configuration();
     }
 
-    protected function executeInternal()
+    protected function executeInternal(): void
     {
         if (!$this->newsletterSubscriptionIsEnabled()) {
             $this->finisherContext->getFinisherVariableProvider()->add(
@@ -46,7 +45,7 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
                 'data.subscribed',
                 0
             );
-            return null;
+            return;
         }
 
         $this->addEntryToSendInBlue();
@@ -55,8 +54,6 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
             'data.subscribed',
             1
         );
-
-        return null;
     }
 
     protected function addEntryToSendInBlue(): void
@@ -98,7 +95,7 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
 
     protected function newsletterSubscriptionIsEnabled(): bool
     {
-        return (bool)$this->parseOption('enabled');
+        return $this->isEnabled();
     }
 
     protected function getEnrichedListIds(): array
