@@ -40,23 +40,23 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
     protected function executeInternal(): void
     {
         if (!$this->newsletterSubscriptionIsEnabled()) {
-            $this->finisherContext->getFinisherVariableProvider()->add(
-                'sendinblue',
-                'data.subscribed',
-                0
-            );
+            $this->setFinisherSubscribedVariable(0);
             return;
         }
 
-        $this->addEntryToSendInBlue();
+        $this->addEntryToSendInBlue() ? $this->setFinisherSubscribedVariable(1) : $this->setFinisherSubscribedVariable(0);
+    }
+
+    protected function setFinisherSubscribedVariable(int $returnValue): void
+    {
         $this->finisherContext->getFinisherVariableProvider()->add(
             'sendinblue',
             'data.subscribed',
-            1
+            $returnValue
         );
     }
 
-    protected function addEntryToSendInBlue(): void
+    protected function addEntryToSendInBlue(): bool
     {
         try {
             $apiInstance = $this->getApi();
@@ -78,9 +78,11 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
                     ->setAttributes($this->getAttributes());
                 $apiInstance->createContact($createContact);
             }
+            return true;
         } catch (\Exception $exception) {
             // todo: should we forward it to the user?
             $this->logger->error($exception->getMessage());
+            return false;
         }
     }
 
