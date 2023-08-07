@@ -3,9 +3,8 @@
     {f:translate(key:'{lll}report.description')}
 </p>
 
-
-<h4>{f:translate(key:'{lll}account')}</h4>
 <f:comment>
+    <h4>{f:translate(key:'{lll}account')}</h4>
     <f:debug inline="1">{account}</f:debug>
 </f:comment>
 
@@ -17,8 +16,8 @@
     <tr>
         <th>{f:translate(key:'{lll}contacts.attribute.id')}</th>
         <th>{f:translate(key:'{lll}contacts.attribute.name')}</th>
-        <th>{f:translate(key:'{lll}contacts.attribute.totalSubscriber')}Total Subscriber</th>
-        <th>{f:translate(key:'{lll}contacts.attribute.totalBlacklisted')}Total Blacklisted</th>
+        <th>{f:translate(key:'{lll}contacts.attribute.uniqueSubscribers')}</th>
+        <th>{f:translate(key:'{lll}contacts.attribute.totalBlacklisted')}</th>
     </tr>
     </thead>
     <tbody>
@@ -26,7 +25,7 @@
         <tr>
             <td>{list.id}</td>
             <td>{list.name}</td>
-            <td>{list.totalSubscribers}</td>
+            <td>{list.uniqueSubscribers}</td>
             <td>{list.totalBlacklisted}</td>
         </tr>
     </f:for>

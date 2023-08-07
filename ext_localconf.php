@@ -4,6 +4,7 @@ defined('TYPO3') or die('Access denied.');
 
 call_user_func(
     static function () {
+        // @todo registration can be dropped, when dropping v11 support
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['sendinblue']['general'] = [
             'title' => 'LLL:EXT:sendinblue/Resources/Private/Language/locallang_report.xlf:report.title',
             'description' => 'LLL:EXT:sendinblue/Resources/Private/Language/locallang_report.xlf:report.description',
