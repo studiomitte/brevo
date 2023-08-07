@@ -11,77 +11,83 @@
 <h4>{f:translate(key:'{lll}contacts')}</h4>
 
 <h5>{f:translate(key:'{lll}contacts.lists')}</h5>
-<table class="table table-condensed table-striped">
-    <thead>
-    <tr>
-        <th>{f:translate(key:'{lll}contacts.attribute.id')}</th>
-        <th>{f:translate(key:'{lll}contacts.attribute.name')}</th>
-        <th>{f:translate(key:'{lll}contacts.attribute.uniqueSubscribers')}</th>
-        <th>{f:translate(key:'{lll}contacts.attribute.totalBlacklisted')}</th>
-    </tr>
-    </thead>
-    <tbody>
-    <f:for each="{contacts.lists.lists}" as="list">
+<div class="panel panel-default">
+    <table class="table table-striped table-hover">
+        <thead>
         <tr>
-            <td>{list.id}</td>
-            <td>{list.name}</td>
-            <td>{list.uniqueSubscribers}</td>
-            <td>{list.totalBlacklisted}</td>
+            <th>{f:translate(key:'{lll}contacts.attribute.id')}</th>
+            <th>{f:translate(key:'{lll}contacts.attribute.name')}</th>
+            <th>{f:translate(key:'{lll}contacts.attribute.uniqueSubscribers')}</th>
+            <th>{f:translate(key:'{lll}contacts.attribute.totalBlacklisted')}</th>
         </tr>
-    </f:for>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <f:for each="{contacts.lists.lists}" as="list">
+            <tr>
+                <td>{list.id}</td>
+                <td>{list.name}</td>
+                <td>{list.uniqueSubscribers}</td>
+                <td>{list.totalBlacklisted}</td>
+            </tr>
+        </f:for>
+        </tbody>
+    </table>
+</div>
 
 <h5>{f:translate(key:'{lll}attributes')}</h5>
-<table class="table table-condensed table-striped">
-    <thead>
-    <tr>
-        <th>{f:translate(key:'{lll}attributes.attribute.name')}</th>
-        <th>{f:translate(key:'{lll}attributes.attribute.type')}</th>
-        <th>{f:translate(key:'{lll}attributes.attribute.category')}</th>
-        <th>{f:translate(key:'{lll}attributes.attribute.info')}</th>
-    </tr>
-    </thead>
-    <tbody>
-    <f:for each="{contacts.attributes.attributes}" as="attribute">
+<div class="panel panel-default">
+    <table class="table table-striped table-hover">
+        <thead>
         <tr>
-            <td>{attribute.name}</td>
-            <td>{attribute.type}</td>
-            <td>{attribute.category}</td>
-            <td>
-                <f:if condition="{attribute.calculatedValue}">
-                    <strong>{f:translate(key:'{lll}attributes.attribute.calculatedValue')}:</strong> {attribute.calculatedValue}
-                </f:if>
-            </td>
+            <th>{f:translate(key:'{lll}attributes.attribute.name')}</th>
+            <th>{f:translate(key:'{lll}attributes.attribute.type')}</th>
+            <th>{f:translate(key:'{lll}attributes.attribute.category')}</th>
+            <th>{f:translate(key:'{lll}attributes.attribute.info')}</th>
         </tr>
-    </f:for>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <f:for each="{contacts.attributes.attributes}" as="attribute">
+            <tr>
+                <td>{attribute.name}</td>
+                <td>{attribute.type}</td>
+                <td>{attribute.category}</td>
+                <td>
+                    <f:if condition="{attribute.calculatedValue}">
+                        <strong>{f:translate(key:'{lll}attributes.attribute.calculatedValue')}:</strong> {attribute.calculatedValue}
+                    </f:if>
+                </td>
+            </tr>
+        </f:for>
+        </tbody>
+    </table>
+</div>
 
 <h4>{f:translate(key:'{lll}templates')}</h4>
-<table class="table table-condensed table-striped">
-    <thead>
-    <tr>
-        <th>{f:translate(key:'{lll}templates.attribute.id')}</th>
-        <th>{f:translate(key:'{lll}templates.attribute.name')}</th>
-        <th>{f:translate(key:'{lll}templates.attribute.active')}</th>
-        <th>{f:translate(key:'{lll}templates.attribute.testSent')}</th>
-        <th>{f:translate(key:'{lll}templates.attribute.sender')}</th>
-        <th>{f:translate(key:'{lll}templates.attribute.createdAt')}</th>
-        <th>{f:translate(key:'{lll}templates.attribute.modifiedAt')}</th>
-    </tr>
-    </thead>
-    <tbody>
-    <f:for each="{emails.templates.templates}" as="template">
+<div class="panel panel-default">
+    <table class="table table-striped table-hover">
+        <thead>
         <tr>
-            <td>{template.id}</td>
-            <td>{template.name}</td>
-            <td><core:icon identifier="actions-edit-{f:if(condition:template.isActive,then:'hide',else:'unhide')}"/></td>
-            <td><core:icon identifier="actions-edit-{f:if(condition:template.testSent,then:'hide',else:'unhide')}"/></td>
-            <td>{template.sender.name} ({template.sender.email}) [{template.sender.id}]</td>
-            <td>{template.createdAt -> f:format.date()}</td>
-            <td>{template.modifiedAt -> f:format.date()}</td>
+            <th>{f:translate(key:'{lll}templates.attribute.id')}</th>
+            <th>{f:translate(key:'{lll}templates.attribute.name')}</th>
+            <th>{f:translate(key:'{lll}templates.attribute.active')}</th>
+            <th>{f:translate(key:'{lll}templates.attribute.testSent')}</th>
+            <th>{f:translate(key:'{lll}templates.attribute.sender')}</th>
+            <th>{f:translate(key:'{lll}templates.attribute.createdAt')}</th>
+            <th>{f:translate(key:'{lll}templates.attribute.modifiedAt')}</th>
         </tr>
-    </f:for>
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        <f:for each="{emails.templates.templates}" as="template">
+            <tr>
+                <td>{template.id}</td>
+                <td>{template.name}</td>
+                <td><core:icon identifier="actions-edit-{f:if(condition:template.isActive,then:'hide',else:'unhide')}"/></td>
+                <td><core:icon identifier="actions-edit-{f:if(condition:template.testSent,then:'hide',else:'unhide')}"/></td>
+                <td>{template.sender.name} ({template.sender.email}) [{template.sender.id}]</td>
+                <td>{template.createdAt -> f:format.date()}</td>
+                <td>{template.modifiedAt -> f:format.date()}</td>
+            </tr>
+        </f:for>
+        </tbody>
+    </table>
+</div>
