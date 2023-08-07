@@ -141,6 +141,12 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
         if ($trackingAttribute = $this->extensionConfiguration->getAttributeTracking()) {
             $attributes[$trackingAttribute] = $this->parseOption('tracking');
         }
+
+        // additional attribute mappings
+        $additionalAttributes = $this->parseOption('additionalAttributes');
+        foreach ($additionalAttributes as $key => $value) {
+            $attributes[$key] = $value;
+        }
         return (object)$attributes;
     }
 
