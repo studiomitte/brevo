@@ -95,6 +95,15 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
         return $this->extensionConfiguration->getDoiTemplateId();
     }
 
+    protected function getDoiRedirectPageId(): int
+    {
+        $doiRedirectPageId = (int)$this->parseOption('doiRedirectPageId');
+        if ($doiRedirectPageId) {
+            return $doiRedirectPageId;
+        }
+        return $this->extensionConfiguration->getDoiRedirectPageId();
+    }
+
     protected function newsletterSubscriptionIsEnabled(): bool
     {
         return $this->isEnabled();
@@ -153,7 +162,7 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
     protected function getRedirectionUrl(): string
     {
         $typolinkConfiguration = [
-            'parameter' => $this->extensionConfiguration->getDoiRedirectPageId(),
+            'parameter' => $this->getDoiRedirectPageId(),
             'forceAbsoluteUrl' => true,
         ];
         return $this->getTypoScriptFrontendController()->cObj->typoLink_URL($typolinkConfiguration);
