@@ -12,7 +12,7 @@ namespace StudioMitte\Sendinblue;
  * of the License, or any later version.
  */
 
-use SendinBlue\Client\Configuration;
+use Brevo\Client\Configuration;
 use StudioMitte\Sendinblue\Configuration as ExtensionConfiguration;
 
 /**

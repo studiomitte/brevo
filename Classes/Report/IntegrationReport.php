@@ -12,11 +12,11 @@ namespace StudioMitte\Sendinblue\Report;
  * of the License, or any later version.
  */
 
-use SendinBlue\Client\Api\AccountApi;
-use SendinBlue\Client\Api\ContactsApi;
-use SendinBlue\Client\Api\TransactionalEmailsApi;
-use SendinBlue\Client\ApiException;
-use SendinBlue\Client\Model\GetAccount;
+use Brevo\Client\Api\AccountApi;
+use Brevo\Client\Api\ContactsApi;
+use Brevo\Client\Api\TransactionalEmailsApi;
+use Brevo\Client\ApiException;
+use Brevo\Client\Model\GetAccount;
 use StudioMitte\Sendinblue\ApiWrapper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidExtensionNameException;

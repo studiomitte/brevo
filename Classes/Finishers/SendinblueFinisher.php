@@ -14,9 +14,9 @@ namespace StudioMitte\Sendinblue\Finishers;
 
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use SendinBlue\Client\Api\ContactsApi;
-use SendinBlue\Client\Model\CreateContact;
-use SendinBlue\Client\Model\CreateDoiContact;
+use Brevo\Client\Api\ContactsApi;
+use Brevo\Client\Model\CreateContact;
+use Brevo\Client\Model\CreateDoiContact;
 use StudioMitte\Sendinblue\ApiWrapper;
 use StudioMitte\Sendinblue\Configuration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

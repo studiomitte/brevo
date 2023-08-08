@@ -12,7 +12,7 @@ namespace StudioMitte\Sendinblue\Command;
  * of the License, or any later version.
  */
 
-use SendinBlue\Client\Api\ContactsApi;
+use Brevo\Client\Api\ContactsApi;
 use StudioMitte\Sendinblue\ApiWrapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
