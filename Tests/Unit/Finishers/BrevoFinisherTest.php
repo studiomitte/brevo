@@ -1,14 +1,14 @@
 <?php
 
-namespace StudioMitte\Sendinblue\Tests\Unit\Finishers;
+namespace StudioMitte\Brevo\Tests\Unit\Finishers;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use StudioMitte\Sendinblue\Configuration;
-use StudioMitte\Sendinblue\Finishers\SendinblueFinisher;
+use StudioMitte\Brevo\Configuration;
+use StudioMitte\Brevo\Finishers\BrevoFinisher;
 use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
-class SendinblueFinisherTest extends BaseTestCase
+class BrevoFinisherTest extends BaseTestCase
 {
 
     /**
@@ -16,10 +16,10 @@ class SendinblueFinisherTest extends BaseTestCase
      */
     public function attributesAreGenerated()
     {
-        /** @var SendinblueFinisher|MockObject|AccessibleObjectInterface $mockedFinisher */
-        $mockedFinisher = $this->getAccessibleMock(SendinblueFinisher::class, ['parseOption'], [], '', false);
+        /** @var BrevoFinisher|MockObject|AccessibleObjectInterface $mockedFinisher */
+        $mockedFinisher = $this->getAccessibleMock(BrevoFinisher::class, ['parseOption'], [], '', false);
         $mockedFinisher->expects(self::any())->method('parseOption')->willReturnArgument(0);
-        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sendinblue'] = [
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['brevo'] = [
             'apiKey' => 'some api keys',
             'attributeFirstName' => 'FIRST',
             'attributeLastName' => 'LAST',
@@ -42,7 +42,7 @@ class SendinblueFinisherTest extends BaseTestCase
      */
     public function newsletterSubscriptionIsEnabledReturnsValue($given, bool $expected)
     {
-        $mockedFinisher = $this->getAccessibleMock(SendinblueFinisher::class, ['parseOption'], [], '', false);
+        $mockedFinisher = $this->getAccessibleMock(BrevoFinisher::class, ['parseOption'], [], '', false);
         $mockedFinisher->expects(self::any())->method('parseOption')->willReturn($given);
         self::assertEquals($expected, $mockedFinisher->_call('newsletterSubscriptionIsEnabled'));
     }

@@ -1,7 +1,7 @@
 {
-	"name": "studiomitte/sendinblue",
+	"name": "studiomitte/brevo",
 	"type": "typo3-cms-extension",
-	"description": "Integration of newsletter SaaS solution sendinblue.com into TYPO3 CMS",
+	"description": "Integration of newsletter SaaS solution brevo.com (formally known as sendinblue) into TYPO3 CMS",
 	"authors": [
 		{
 			"name": "Georg Ringer",
@@ -9,8 +9,8 @@
 		}
 	],
 	"support": {
-		"issues": "https://github.com/studiomitte/sendinblue/issues",
-		"source": "https://github.com/studiomitte/sendinblue"
+		"issues": "https://github.com/studiomitte/brevo/issues",
+		"source": "https://github.com/studiomitte/brevo"
 	},
 	"homepage": "https://studiomitte.com",
 	"license": [
@@ -27,20 +27,17 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"StudioMitte\\Sendinblue\\": "Classes"
+			"StudioMitte\\Brevo\\": "Classes"
 		}
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"StudioMitte\\Sendinblue\\Tests\\": "Tests"
+			"StudioMitte\\Brevo\\Tests\\": "Tests"
 		}
-	},
-	"replace": {
-		"typo3-ter/sendinblue": "self.version"
 	},
 	 "extra": {
 		"typo3/cms": {
-			"extension-key": "sendinblue"
+			"extension-key": "brevo"
 		}
 	}
 }

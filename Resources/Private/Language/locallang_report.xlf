@@ -3,10 +3,10 @@
    <file source-language="en" date="2020-11-23T14:17:13+01:00">
       <body>
          <trans-unit id="report.title" resname="report.title">
-            <source>SendInBlue</source>
+            <source>Brevo</source>
          </trans-unit>
          <trans-unit id="report.description" resname="report.description">
-            <source>Information about the integration of SendInBlue</source>
+            <source>Information about the integration of Brevo</source>
          </trans-unit>
          <trans-unit id="account" resname="account">
             <source>Account</source>

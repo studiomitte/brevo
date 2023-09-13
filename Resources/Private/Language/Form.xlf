@@ -2,25 +2,25 @@
 <xliff version="1.0">
  <file source-language="en" date="2020-11-23T10:33:29+01:00">
   <body>
-   <trans-unit id="finisher.Sendinblue.label" resname="finisher.Sendinblue.label">
-    <source>Sendinblue Finisher</source>
+   <trans-unit id="finisher.Brevo.label" resname="finisher.Brevo.label">
+    <source>Brevo Finisher</source>
    </trans-unit>
-   <trans-unit id="finisher.Sendinblue.field.enable" resname="finisher.Sendinblue.field.enable">
+   <trans-unit id="finisher.Brevo.field.enable" resname="finisher.Brevo.field.enable">
     <source>Checkbox to enable</source>
    </trans-unit>
-   <trans-unit id="finisher.Sendinblue.field.email" resname="finisher.Sendinblue.field.email">
+   <trans-unit id="finisher.Brevo.field.email" resname="finisher.Brevo.field.email">
     <source>Field of email address</source>
    </trans-unit>
-   <trans-unit id="finisher.Sendinblue.field.firstName" resname="finisher.Sendinblue.field.firstName">
+   <trans-unit id="finisher.Brevo.field.firstName" resname="finisher.Brevo.field.firstName">
     <source>Field of First name</source>
    </trans-unit>
-   <trans-unit id="finisher.Sendinblue.field.lastName" resname="finisher.Sendinblue.field.lastName">
+   <trans-unit id="finisher.Brevo.field.lastName" resname="finisher.Brevo.field.lastName">
     <source>Field of Last name</source>
    </trans-unit>
-   <trans-unit id="finisher.Sendinblue.field.tracking" resname="finisher.Sendinblue.field.tracking">
+   <trans-unit id="finisher.Brevo.field.tracking" resname="finisher.Brevo.field.tracking">
     <source>Additional tracking information</source>
    </trans-unit>
-  <trans-unit id="finisher.Sendinblue.field.additionalListIds" resname="finisher.Sendinblue.field.additionalListIds">
+  <trans-unit id="finisher.Brevo.field.additionalListIds" resname="finisher.Brevo.field.additionalListIds">
 	  <source>Additional list ids</source>
   </trans-unit>
   </body>
