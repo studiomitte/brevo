@@ -9,3 +9,7 @@ services:
       - name: 'console.command'
         command: 'sendinblue:test'
         schedulable: false
+
+  StudioMitte\Sendinblue\Report\IntegrationReport:
+    tags:
+      - name: reports.report

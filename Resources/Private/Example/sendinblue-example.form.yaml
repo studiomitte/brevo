@@ -7,13 +7,16 @@ label: sendinblue
 prototypeName: standard
 finishers:
   -
-    options:
+    renderingOptions:
       enabled: '{checkbox-1}'
+    options:
       firstName: '{text-1}'
       lastName: '{text-3}'
       email: '{text-2}'
       tracking: trackingvalue
       additionalListIds: '{multicheckbox-1}'
+      additionalAttributes:
+        salutation: '{salutation}'
 
       # override global settings
       # doiTemplateId: '14'
@@ -34,28 +37,25 @@ renderables:
     label: Step
     renderables:
       -
+        properties:
+          options:
+            '1': 'Mr.'
+            '2': 'Mrs.'
+        type: SingleSelect
+        identifier: salutation
+        label: Salutation
+      -
         defaultValue: ''
         type: Text
         identifier: text-1
         label: Vorname
         properties:
           elementDescription: ''
-          fluidAdditionalAttributes:
-            required: required
-        validators:
-          -
-            identifier: NotEmpty
       -
         defaultValue: ''
         type: Text
         identifier: text-3
         label: Nachname
-        properties:
-          fluidAdditionalAttributes:
-            required: required
-        validators:
-          -
-            identifier: NotEmpty
       -
         defaultValue: ''
         type: Text

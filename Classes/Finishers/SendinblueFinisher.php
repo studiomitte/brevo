@@ -14,9 +14,9 @@ namespace StudioMitte\Sendinblue\Finishers;
 
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use SendinBlue\Client\Api\ContactsApi;
-use SendinBlue\Client\Model\CreateContact;
-use SendinBlue\Client\Model\CreateDoiContact;
+use Brevo\Client\Api\ContactsApi;
+use Brevo\Client\Model\CreateContact;
+use Brevo\Client\Model\CreateDoiContact;
 use StudioMitte\Sendinblue\ApiWrapper;
 use StudioMitte\Sendinblue\Configuration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -30,36 +30,33 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
     use LoggerAwareTrait;
 
     /** @var Configuration */
-    protected $extensionConfiguration;
+    protected Configuration $extensionConfiguration;
 
     public function __construct(string $finisherIdentifier = '')
     {
-        parent::__construct($finisherIdentifier);
         $this->extensionConfiguration = new Configuration();
     }
 
-    protected function executeInternal()
+    protected function executeInternal(): void
     {
         if (!$this->newsletterSubscriptionIsEnabled()) {
-            $this->finisherContext->getFinisherVariableProvider()->add(
-                'sendinblue',
-                'subsribed',
-                0
-            );
-            return null;
+            $this->setFinisherSubscribedVariable(0);
+            return;
         }
 
-        $this->addEntryToSendInBlue();
+        $this->addEntryToSendInBlue() ? $this->setFinisherSubscribedVariable(1) : $this->setFinisherSubscribedVariable(0);
+    }
+
+    protected function setFinisherSubscribedVariable(int $returnValue): void
+    {
         $this->finisherContext->getFinisherVariableProvider()->add(
             'sendinblue',
             'data.subscribed',
-            1
+            $returnValue
         );
-
-        return null;
     }
 
-    protected function addEntryToSendInBlue(): void
+    protected function addEntryToSendInBlue(): bool
     {
         try {
             $apiInstance = $this->getApi();
@@ -81,9 +78,11 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
                     ->setAttributes($this->getAttributes());
                 $apiInstance->createContact($createContact);
             }
+            return true;
         } catch (\Exception $exception) {
             // todo: should we forward it to the user?
             $this->logger->error($exception->getMessage());
+            return false;
         }
     }
 
@@ -96,9 +95,18 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
         return $this->extensionConfiguration->getDoiTemplateId();
     }
 
+    protected function getDoiRedirectPageId(): int
+    {
+        $doiRedirectPageId = (int)$this->parseOption('doiRedirectPageId');
+        if ($doiRedirectPageId) {
+            return $doiRedirectPageId;
+        }
+        return $this->extensionConfiguration->getDoiRedirectPageId();
+    }
+
     protected function newsletterSubscriptionIsEnabled(): bool
     {
-        return (bool)$this->parseOption('enabled');
+        return $this->isEnabled();
     }
 
     protected function getEnrichedListIds(): array
@@ -142,13 +150,19 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
         if ($trackingAttribute = $this->extensionConfiguration->getAttributeTracking()) {
             $attributes[$trackingAttribute] = $this->parseOption('tracking');
         }
+
+        // additional attribute mappings
+        $additionalAttributes = $this->parseOption('additionalAttributes');
+        foreach ($additionalAttributes as $key => $value) {
+            $attributes[$key] = $value;
+        }
         return (object)$attributes;
     }
 
     protected function getRedirectionUrl(): string
     {
         $typolinkConfiguration = [
-            'parameter' => $this->extensionConfiguration->getDoiRedirectPageId(),
+            'parameter' => $this->getDoiRedirectPageId(),
             'forceAbsoluteUrl' => true,
         ];
         return $this->getTypoScriptFrontendController()->cObj->typoLink_URL($typolinkConfiguration);

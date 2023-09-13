@@ -1,32 +1,10 @@
 <?php
 
-if (!defined('TYPO3_MODE')) {
-    die('Access denied.');
-}
+defined('TYPO3') or die('Access denied.');
 
 call_user_func(
     static function () {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScriptSetup(
-            trim(
-                '
-plugin.tx_form {
-    settings {
-        yamlConfigurations {
-            1483353712 = EXT:sendinblue/Configuration/Yaml/SendinblueFrontend.yaml
-        }
-    }
-}
-module.tx_form {
-    settings {
-        yamlConfigurations {
-            1483353712 = EXT:sendinblue/Configuration/Yaml/SendinblueBackend.yaml
-        }
-    }
-}
-'
-            )
-        );
-
+        // @todo registration can be dropped, when dropping v11 support
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['sendinblue']['general'] = [
             'title' => 'LLL:EXT:sendinblue/Resources/Private/Language/locallang_report.xlf:report.title',
             'description' => 'LLL:EXT:sendinblue/Resources/Private/Language/locallang_report.xlf:report.description',

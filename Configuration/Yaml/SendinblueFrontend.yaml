@@ -1,8 +1,0 @@
-TYPO3:
-  CMS:
-    Form:
-      prototypes:
-        standard:
-          finishersDefinition:
-            Sendinblue:
-              implementationClassName: 'StudioMitte\Sendinblue\Finishers\SendinblueFinisher'

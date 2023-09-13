@@ -12,11 +12,11 @@ namespace StudioMitte\Sendinblue\Report;
  * of the License, or any later version.
  */
 
-use SendinBlue\Client\Api\AccountApi;
-use SendinBlue\Client\Api\ContactsApi;
-use SendinBlue\Client\Api\TransactionalEmailsApi;
-use SendinBlue\Client\ApiException;
-use SendinBlue\Client\Model\GetAccount;
+use Brevo\Client\Api\AccountApi;
+use Brevo\Client\Api\ContactsApi;
+use Brevo\Client\Api\TransactionalEmailsApi;
+use Brevo\Client\ApiException;
+use Brevo\Client\Model\GetAccount;
 use StudioMitte\Sendinblue\ApiWrapper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidExtensionNameException;
@@ -36,11 +36,10 @@ class IntegrationReport implements ReportInterface
      * @throws ApiException
      * @throws InvalidExtensionNameException
      */
-    public function getReport()
+    public function getReport(): string
     {
         // Rendering of the output via fluid
         $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $view->getRequest()->setControllerExtensionName('Sendinblue');
         $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
             'EXT:sendinblue/Resources/Private/Templates/IntegrationReport.html'
         ));
@@ -90,5 +89,25 @@ class IntegrationReport implements ReportInterface
     {
         $api = new AccountApi(null, ApiWrapper::getConfig());
         return $api->getAccount();
+    }
+
+    public function getIdentifier(): string
+    {
+        return 'general';
+    }
+
+    public function getTitle(): string
+    {
+        return 'LLL:EXT:sendinblue/Resources/Private/Language/locallang_report.xlf:report.title';
+    }
+
+    public function getDescription(): string
+    {
+        return 'LLL:EXT:sendinblue/Resources/Private/Language/locallang_report.xlf:report.description';
+    }
+
+    public function getIconIdentifier(): string
+    {
+        return 'module-reports';
     }
 }
