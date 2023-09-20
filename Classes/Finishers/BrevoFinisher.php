@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace StudioMitte\Sendinblue\Finishers;
+namespace StudioMitte\Brevo\Finishers;
 
 /*
- * This file is part of TYPO3 CMS-based extension "sendinblue" by StudioMitte.
+ * This file is part of TYPO3 CMS-based extension "brevo" by StudioMitte.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -17,15 +17,15 @@ use Psr\Log\LoggerAwareTrait;
 use Brevo\Client\Api\ContactsApi;
 use Brevo\Client\Model\CreateContact;
 use Brevo\Client\Model\CreateDoiContact;
-use StudioMitte\Sendinblue\ApiWrapper;
-use StudioMitte\Sendinblue\Configuration;
+use StudioMitte\Brevo\ApiWrapper;
+use StudioMitte\Brevo\Configuration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 
 /**
- * Finisher for EXT:form sending the data to sendinblue
+ * Finisher for EXT:form sending the data to brevo
  */
-class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterface
+class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
@@ -44,19 +44,19 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
             return;
         }
 
-        $this->addEntryToSendInBlue() ? $this->setFinisherSubscribedVariable(1) : $this->setFinisherSubscribedVariable(0);
+        $this->addEntryToBrevo() ? $this->setFinisherSubscribedVariable(1) : $this->setFinisherSubscribedVariable(0);
     }
 
     protected function setFinisherSubscribedVariable(int $returnValue): void
     {
         $this->finisherContext->getFinisherVariableProvider()->add(
-            'sendinblue',
+            'brevo',
             'data.subscribed',
             $returnValue
         );
     }
 
-    protected function addEntryToSendInBlue(): bool
+    protected function addEntryToBrevo(): bool
     {
         try {
             $apiInstance = $this->getApi();
@@ -152,7 +152,7 @@ class SendinblueFinisher extends AbstractFinisher implements LoggerAwareInterfac
         }
 
         // additional attribute mappings
-        $additionalAttributes = $this->parseOption('additionalAttributes');
+        $additionalAttributes = (array)($this->parseOption('additionalAttributes') ?? []);
         foreach ($additionalAttributes as $key => $value) {
             $attributes[$key] = $value;
         }

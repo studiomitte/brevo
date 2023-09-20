@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace StudioMitte\Sendinblue;
+namespace StudioMitte\Brevo;
 
 /*
- * This file is part of TYPO3 CMS-based extension "sendinblue" by StudioMitte.
+ * This file is part of TYPO3 CMS-based extension "brevo" by StudioMitte.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -52,7 +52,7 @@ class Configuration
     public function __construct()
     {
         try {
-            $settings = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('sendinblue');
+            $settings = GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('brevo');
 
             foreach (['apiKey', 'attributeFirstName', 'attributeLastName', 'attributeTracking'] as $stringField) {
                 $this->$stringField = $settings[$stringField] ?? '';

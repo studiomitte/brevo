@@ -4,12 +4,12 @@ services:
     autoconfigure: true
     public: false
 
-  StudioMitte\Sendinblue\Command\TestCommand:
+  StudioMitte\Brevo\Command\TestCommand:
     tags:
       - name: 'console.command'
-        command: 'sendinblue:test'
+        command: 'brevo:test'
         schedulable: false
 
-  StudioMitte\Sendinblue\Report\IntegrationReport:
+  StudioMitte\Brevo\Report\IntegrationReport:
     tags:
       - name: reports.report

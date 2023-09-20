@@ -1,7 +1,7 @@
 module.tx_form {
     settings {
         yamlConfigurations {
-            1483353712 = EXT:sendinblue/Configuration/Yaml/FormSetup.yaml
+            1483353712 = EXT:brevo/Configuration/Yaml/FormSetup.yaml
         }
     }
 }
@@ -9,7 +9,7 @@ module.tx_form {
 plugin.tx_form {
     settings {
         yamlConfigurations {
-            1483353712 = EXT:sendinblue/Configuration/Yaml/FormSetup.yaml
+            1483353712 = EXT:brevo/Configuration/Yaml/FormSetup.yaml
         }
     }
 }

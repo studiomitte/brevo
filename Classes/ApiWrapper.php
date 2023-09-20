@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace StudioMitte\Sendinblue;
+namespace StudioMitte\Brevo;
 
 /*
- * This file is part of TYPO3 CMS-based extension "sendinblue" by StudioMitte.
+ * This file is part of TYPO3 CMS-based extension "brevo" by StudioMitte.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -13,10 +13,10 @@ namespace StudioMitte\Sendinblue;
  */
 
 use Brevo\Client\Configuration;
-use StudioMitte\Sendinblue\Configuration as ExtensionConfiguration;
+use StudioMitte\Brevo\Configuration as ExtensionConfiguration;
 
 /**
- * Wrapper for the sendinblue api giving back a pre-configured API
+ * Wrapper for the brevo api giving back a pre-configured API
  */
 class ApiWrapper
 {

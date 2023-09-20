@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace StudioMitte\Sendinblue\Command;
+namespace StudioMitte\Brevo\Command;
 
 /*
- * This file is part of TYPO3 CMS-based extension "sendinblue" by StudioMitte.
+ * This file is part of TYPO3 CMS-based extension "brevo" by StudioMitte.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -13,7 +13,7 @@ namespace StudioMitte\Sendinblue\Command;
  */
 
 use Brevo\Client\Api\ContactsApi;
-use StudioMitte\Sendinblue\ApiWrapper;
+use StudioMitte\Brevo\ApiWrapper;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,7 +30,7 @@ class TestCommand extends Command
     protected function configure()
     {
         $this
-            ->setDescription('Sendinblue demo');
+            ->setDescription('Brevo demo');
     }
 
     /**

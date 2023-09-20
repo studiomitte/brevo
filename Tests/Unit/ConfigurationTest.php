@@ -1,8 +1,8 @@
 <?php
 
-namespace StudioMitte\Sendinblue\Tests\Unit;
+namespace StudioMitte\Brevo\Tests\Unit;
 
-use StudioMitte\Sendinblue\Configuration;
+use StudioMitte\Brevo\Configuration;
 use TYPO3\TestingFramework\Core\BaseTestCase;
 
 class ConfigurationTest extends BaseTestCase
@@ -13,7 +13,7 @@ class ConfigurationTest extends BaseTestCase
      */
     public function configurationIsProperlyReturned()
     {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sendinblue'] = [
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['brevo'] = [
             'apiKey' => 'some api keys',
             'attributeFirstName' => 'VORNAME',
             'attributeLastName' => 'NACHNAME',
@@ -40,7 +40,7 @@ class ConfigurationTest extends BaseTestCase
      */
     public function missingApiKeyThrowsException()
     {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['sendinblue'] = [
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['brevo'] = [
             'some' => 'value',
         ];
         $this->expectException(\RuntimeException::class);

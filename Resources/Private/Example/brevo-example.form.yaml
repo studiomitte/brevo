@@ -2,8 +2,8 @@
 renderingOptions:
   submitButtonLabel: Submit
 type: Form
-identifier: sendinblue
-label: sendinblue
+identifier: brevo
+label: brevo
 prototypeName: standard
 finishers:
   -
@@ -21,7 +21,7 @@ finishers:
       # override global settings
       # doiTemplateId: '14'
       # defaultListIds: '12,34'
-    identifier: Sendinblue
+    identifier: Brevo
   -
     options:
       message: 'Thanks for providing all your information'

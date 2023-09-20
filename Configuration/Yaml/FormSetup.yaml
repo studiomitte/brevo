@@ -5,7 +5,7 @@ TYPO3:
         standard:
           formEditor:
             translationFiles:
-              1483353712: 'EXT:sendinblue/Resources/Private/Language/Form.xlf'
+              1483353712: 'EXT:brevo/Resources/Private/Language/Form.xlf'
           formElementsDefinition:
             Form:
               formEditor:
@@ -13,22 +13,22 @@ TYPO3:
                   900:
                     selectOptions:
                       1483353712:
-                        value: 'Sendinblue'
-                        label: 'finisher.Sendinblue.label'
+                        value: 'Brevo'
+                        label: 'finisher.Brevo.label'
                 propertyCollections:
                   finishers:
                     # add finisher fields
                     1483353712:
-                      identifier: 'Sendinblue'
+                      identifier: 'Brevo'
                       editors:
                         100:
                           identifier: header
-                          label: 'finisher.Sendinblue.label'
+                          label: 'finisher.Brevo.label'
                           templateName: 'Inspector-CollectionElementHeaderEditor'
                         110:
                           identifier: 'enabled'
                           templateName: 'Inspector-TextEditor'
-                          label: 'finisher.Sendinblue.field.enable'
+                          label: 'finisher.Brevo.field.enable'
                           propertyPath: 'options.enabled'
                           enableFormelementSelectionButton: true
                           propertyValidators:
@@ -37,7 +37,7 @@ TYPO3:
                         120:
                           identifier: 'email'
                           templateName: 'Inspector-TextEditor'
-                          label: 'finisher.Sendinblue.field.email'
+                          label: 'finisher.Brevo.field.email'
                           propertyPath: 'options.email'
                           enableFormelementSelectionButton: true
                           propertyValidators:
@@ -46,7 +46,7 @@ TYPO3:
                         130:
                           identifier: 'firstName'
                           templateName: 'Inspector-TextEditor'
-                          label: 'finisher.Sendinblue.field.firstName'
+                          label: 'finisher.Brevo.field.firstName'
                           propertyPath: 'options.firstName'
                           enableFormelementSelectionButton: true
                           propertyValidators:
@@ -54,7 +54,7 @@ TYPO3:
                         131:
                           identifier: 'lastName'
                           templateName: 'Inspector-TextEditor'
-                          label: 'finisher.Sendinblue.field.lastName'
+                          label: 'finisher.Brevo.field.lastName'
                           propertyPath: 'options.lastName'
                           enableFormelementSelectionButton: true
                           propertyValidators:
@@ -62,7 +62,7 @@ TYPO3:
                         135:
                             identifier: 'additionalListIds'
                             templateName: 'Inspector-TextEditor'
-                            label: 'finisher.Sendinblue.field.additionalListIds'
+                            label: 'finisher.Brevo.field.additionalListIds'
                             propertyPath: 'options.additionalListIds'
                             enableFormelementSelectionButton: true
                             propertyValidators:
@@ -70,17 +70,17 @@ TYPO3:
                         150:
                           identifier: 'tracking'
                           templateName: 'Inspector-TextEditor'
-                          label: 'finisher.Sendinblue.field.tracking'
+                          label: 'finisher.Brevo.field.tracking'
                           propertyPath: 'options.tracking'
                         9999:
                           identifier: 'removeButton'
                           templateName: 'Inspector-RemoveElementEditor'
           finishersDefinition:
-            Sendinblue:
-              implementationClassName: 'StudioMitte\Sendinblue\Finishers\SendinblueFinisher'
+            Brevo:
+              implementationClassName: 'StudioMitte\Brevo\Finishers\BrevoFinisher'
               formEditor:
                 iconIdentifier: 'form-finisher'
-                label: 'finisher.Sendinblue.label'
+                label: 'finisher.Brevo.label'
                 predefinedDefaults:
                   options:
                     enabled: ''
@@ -91,29 +91,29 @@ TYPO3:
                     tracking: 'trackingvalue'
               # displayed when overriding finisher settings
               FormEngine:
-                label: 'finisher.Sendinblue.label'
+                label: 'finisher.Brevo.label'
                 elements:
                   enabled:
-                    label: 'finisher.Sendinblue.field.enable'
+                    label: 'finisher.Brevo.field.enable'
                     config:
                       type: 'check'
                   tracking:
-                    label: 'finisher.Sendinblue.field.tracking'
+                    label: 'finisher.Brevo.field.tracking'
                     config:
                       type: 'text'
                   email:
-                    label: 'finisher.Sendinblue.field.email'
+                    label: 'finisher.Brevo.field.email'
                     config:
                       type: 'text'
                   firstName:
-                    label: 'finisher.Sendinblue.field.firstName'
+                    label: 'finisher.Brevo.field.firstName'
                     config:
                       type: 'text'
                   lastName:
-                    label: 'finisher.Sendinblue.field.lastName'
+                    label: 'finisher.Brevo.field.lastName'
                     config:
                       type: 'text'
                   additionalListIds:
-                    label: 'finisher.Sendinblue.field.additionalListIds'
+                    label: 'finisher.Brevo.field.additionalListIds'
                     config:
                       type: 'text'

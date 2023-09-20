@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace StudioMitte\Sendinblue\Report;
+namespace StudioMitte\Brevo\Report;
 
 /*
- * This file is part of TYPO3 CMS-based extension "sendinblue" by StudioMitte.
+ * This file is part of TYPO3 CMS-based extension "brevo" by StudioMitte.
  *
  * It is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License, either version 2
@@ -17,7 +17,7 @@ use Brevo\Client\Api\ContactsApi;
 use Brevo\Client\Api\TransactionalEmailsApi;
 use Brevo\Client\ApiException;
 use Brevo\Client\Model\GetAccount;
-use StudioMitte\Sendinblue\ApiWrapper;
+use StudioMitte\Brevo\ApiWrapper;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Exception\InvalidExtensionNameException;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -41,14 +41,14 @@ class IntegrationReport implements ReportInterface
         // Rendering of the output via fluid
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
-            'EXT:sendinblue/Resources/Private/Templates/IntegrationReport.html'
+            'EXT:brevo/Resources/Private/Templates/IntegrationReport.html'
         ));
 
         $view->assignMultiple([
             'account' => $this->getAccountInformation(),
             'contacts' => $this->getContactInformation(),
             'emails' => $this->getTransactionalEmailInformation(),
-            'lll' => 'LLL:EXT:sendinblue/Resources/Private/Language/locallang_report.xlf:'
+            'lll' => 'LLL:EXT:brevo/Resources/Private/Language/locallang_report.xlf:'
         ]);
 
         return $view->render();
@@ -98,12 +98,12 @@ class IntegrationReport implements ReportInterface
 
     public function getTitle(): string
     {
-        return 'LLL:EXT:sendinblue/Resources/Private/Language/locallang_report.xlf:report.title';
+        return 'LLL:EXT:brevo/Resources/Private/Language/locallang_report.xlf:report.title';
     }
 
     public function getDescription(): string
     {
-        return 'LLL:EXT:sendinblue/Resources/Private/Language/locallang_report.xlf:report.description';
+        return 'LLL:EXT:brevo/Resources/Private/Language/locallang_report.xlf:report.description';
     }
 
     public function getIconIdentifier(): string
