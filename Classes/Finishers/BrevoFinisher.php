@@ -106,7 +106,7 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
 
     protected function newsletterSubscriptionIsEnabled(): bool
     {
-        return $this->isEnabled();
+        return (bool)$this->parseOption('enabled');
     }
 
     protected function getEnrichedListIds(): array
