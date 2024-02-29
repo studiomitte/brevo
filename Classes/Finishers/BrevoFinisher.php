@@ -12,6 +12,7 @@ namespace StudioMitte\Brevo\Finishers;
  * of the License, or any later version.
  */
 
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Brevo\Client\Api\ContactsApi;
@@ -19,6 +20,8 @@ use Brevo\Client\Model\CreateContact;
 use Brevo\Client\Model\CreateDoiContact;
 use StudioMitte\Brevo\ApiWrapper;
 use StudioMitte\Brevo\Configuration;
+use StudioMitte\Brevo\Event\FormFinisherAttributeEvent;
+use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 
@@ -32,9 +35,13 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
     /** @var Configuration */
     protected Configuration $extensionConfiguration;
 
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
+
     public function __construct(string $finisherIdentifier = '')
     {
         $this->extensionConfiguration = new Configuration();
+        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
     }
 
     protected function executeInternal(): void
@@ -156,6 +163,11 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
         foreach ($additionalAttributes as $key => $value) {
             $attributes[$key] = $value;
         }
+
+        $event = new FormFinisherAttributeEvent($this, $attributes);
+        $this->eventDispatcher->dispatch($event);
+        $attributes = $event->getAttributes();
+
         return (object)$attributes;
     }
 
