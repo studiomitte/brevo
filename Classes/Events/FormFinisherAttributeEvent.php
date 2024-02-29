@@ -20,7 +20,7 @@ class FormFinisherAttributeEvent
     protected BrevoFinisher $brevoFinisher;
     protected array $attributes;
 
-    public function __construct(BrevoFinisher $brevoFinisher, array $attributes
+    public function __construct(BrevoFinisher $brevoFinisher, array $attributes)
     {
         $this->brevoFinisher = $brevoFinisher;
         $this->attributes = $attributes;
