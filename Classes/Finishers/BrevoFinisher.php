@@ -20,7 +20,7 @@ use Brevo\Client\Model\CreateContact;
 use Brevo\Client\Model\CreateDoiContact;
 use StudioMitte\Brevo\ApiWrapper;
 use StudioMitte\Brevo\Configuration;
-use StudioMitte\Brevo\Event\FormFinisherAttributeEvent;
+use StudioMitte\Brevo\Events\FormFinisherAttributeEvent;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;

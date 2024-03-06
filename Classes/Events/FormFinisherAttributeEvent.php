@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace StudioMitte\Brevo\Event;
+namespace StudioMitte\Brevo\Events;
 
 /*
  * This file is part of TYPO3 CMS-based extension "brevo" by StudioMitte.
