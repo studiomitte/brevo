@@ -17,8 +17,8 @@
 		"GPL-2.0-or-later"
 	],
 	"require": {
-		"typo3/cms-core": "^11.5||^12.4",
-		"typo3/cms-form": "^11.5||^12.4",
+		"typo3/cms-core": "^11.5||^12.4 || ^13.4",
+		"typo3/cms-form": "^11.5||^12.4 || ^13.4",
 		"getbrevo/brevo-php": "^1"
 	},
 	"require-dev": {
