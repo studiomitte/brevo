@@ -7,8 +7,6 @@ label: brevo
 prototypeName: standard
 finishers:
   -
-    renderingOptions:
-      enabled: '{checkbox-1}'
     options:
       firstName: '{text-1}'
       lastName: '{text-3}'
@@ -17,7 +15,8 @@ finishers:
       additionalListIds: '{multicheckbox-1}'
       additionalAttributes:
         salutation: '{salutation}'
-
+      renderingOptions:
+        enabled: '{checkbox-1}'
       # override global settings
       # doiTemplateId: '14'
       # defaultListIds: '12,34'
