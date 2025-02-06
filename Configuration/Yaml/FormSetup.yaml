@@ -29,7 +29,7 @@ TYPO3:
                           identifier: 'enabled'
                           templateName: 'Inspector-TextEditor'
                           label: 'finisher.Brevo.field.enable'
-                          propertyPath: 'options.enabled'
+                          propertyPath: 'options.renderingOptions.enabled'
                           enableFormelementSelectionButton: true
                           propertyValidators:
                             10: 'NotEmpty'
@@ -83,7 +83,8 @@ TYPO3:
                 label: 'finisher.Brevo.label'
                 predefinedDefaults:
                   options:
-                    enabled: ''
+                    renderingOptions:
+                      enabled: ''
                     firstName: ''
                     lastName: ''
                     email: ''
