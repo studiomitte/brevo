@@ -139,7 +139,9 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
                 }
             }
         }
-        return array_unique($lists);
+
+        // Make sure a list is returned - see: https://github.com/studiomitte/brevo/issues/19
+        return array_values(array_unique($lists));
     }
 
     /**
