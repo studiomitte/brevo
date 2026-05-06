@@ -21,6 +21,7 @@ finishers:
       # override global settings
       # doiTemplateId: '14'
       # defaultListIds: '12,34'
+      # doi: false
     identifier: Brevo
   -
     options:

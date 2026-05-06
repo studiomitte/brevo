@@ -67,7 +67,7 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
     {
         try {
             $apiInstance = $this->getApi();
-            if ($this->extensionConfiguration->isDoi()) {
+            if ($this->isDoiEnabled()) {
                 $createContact = new CreateDoiContact();
                 $createContact
                     ->setEmail($this->parseOption('email'))
@@ -140,6 +140,24 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
             }
         }
         return array_unique($lists);
+    }
+
+    /**
+     * Check if DOI is enabled.
+     * By default, DOI is enabled via the extension configuration.
+     * Optionally, it can be disabled via the form configuration.
+     *
+     * @return bool
+     */
+    protected function isDoiEnabled(): bool
+    {
+        $doiEnabled = $this->extensionConfiguration->isDoi();
+
+        if ($this->parseOption('doi') !== null) {
+            $doiEnabled = (bool)$this->parseOption('doi');
+        }
+
+        return $doiEnabled;
     }
 
     /**

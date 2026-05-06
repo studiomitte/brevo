@@ -16,7 +16,7 @@ Head over to the extension configuration and provide all settings you need:
   - *Partner Key*: currently not in use
   - Default Lists*: Add IDs of brevo contact lists which are added to every contact
 - **DOI**
-  - *Enable double optin*: Please always use double opt in!
+  - *Enable double optin*: Please always use double opt in! Additionally, it can be overwritten by form configuration.
   - *Page ID for redirect*: Page which a user is sent to after confirming double opt in
   - *DOI Template*: Id of brevo template which is used for DOI mails.
 - **Attributes**
@@ -67,6 +67,7 @@ The following configurations can be used to override the global settings
     options:
        doiTemplateId: '14'
        defaultListIds: '12,34'
+       doi: false
     identifier: Brevo
 ```
 
