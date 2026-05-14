@@ -70,6 +70,13 @@ The following configurations can be used to override the global settings
     identifier: Brevo
 ```
 
+### Returned data from Finisher
+
+There are some additional data returned by the finisher to use in following finishers:
+- **Brevo Contact ID**: The ID of the newly created contact in brevo. This can be used for example to trigger an automation workflow for this contact. (*brevo.data.newContactId*)
+- **Subscription Status**: If the user has subscribed to the newsletter or not. (*brevo.data.subscribed*)
+-
+
 ## Author
 
 This extension has been created by [StudioMitte](https://studiomitte.com)
