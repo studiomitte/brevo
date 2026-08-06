@@ -4,6 +4,16 @@ services:
     autoconfigure: true
     public: false
 
+  # Finisher is instantiated via GeneralUtility::makeInstance() from
+  # FormDefinition::createFinisher(). Without an explicit service registration it
+  # is invisible to the container, so the inject* setters of AbstractFinisher
+  # (translationService, viewFactory) never run and submitting the form fatals
+  # with "Typed property ...::$translationService must not be accessed before
+  # initialization". public: true keeps it in the container graph (no pruning)
+  # and ensures the setters are applied.
+  StudioMitte\Brevo\Finishers\BrevoFinisher:
+    public: true
+
   StudioMitte\Brevo\Command\TestCommand:
     tags:
       - name: 'console.command'
