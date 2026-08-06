@@ -24,6 +24,7 @@ use StudioMitte\Brevo\Events\FormFinisherAttributeEvent;
 use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Finisher for EXT:form sending the data to brevo
@@ -185,7 +186,11 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
             'parameter' => $this->getDoiRedirectPageId(),
             'forceAbsoluteUrl' => true,
         ];
-        return $this->getTypoScriptFrontendController()->cObj->typoLink_URL($typolinkConfiguration);
+        // TYPO3 v14: AbstractFinisher::getTypoScriptFrontendController() was removed and
+        // ContentObjectRenderer::typoLink_URL() is superseded by createUrl().
+        $contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $contentObjectRenderer->setRequest($this->finisherContext->getRequest());
+        return $contentObjectRenderer->createUrl($typolinkConfiguration);
     }
 
     protected function getApi(): ContactsApi
