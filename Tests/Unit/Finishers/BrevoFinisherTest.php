@@ -10,6 +10,8 @@ use PHPUnit\Framework\Attributes\Test;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use StudioMitte\Brevo\Configuration;
 use StudioMitte\Brevo\Finishers\BrevoFinisher;
+use TYPO3\CMS\Form\Domain\Finishers\FinisherContext;
+use TYPO3\CMS\Form\Domain\Runtime\FormRuntime;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 #[AllowMockObjectsWithoutExpectations]
@@ -40,6 +42,23 @@ final class BrevoFinisherTest extends UnitTestCase
             'SOURCE' => 'tracking',
         ];
         self::assertSame($expected, (array)$mockedFinisher->_call('getAttributes'));
+    }
+
+    #[Test]
+    public function dateAttributesAreFormattedForTheApi(): void
+    {
+        $formRuntime = $this->createMock(FormRuntime::class);
+        $formRuntime->method('offsetExists')->willReturn(true);
+        $formRuntime->method('offsetGet')->with('date-1')->willReturn(new \DateTime('1984-04-05'));
+        $finisherContext = $this->createMock(FinisherContext::class);
+        $finisherContext->method('getFormRuntime')->willReturn($formRuntime);
+
+        $mockedFinisher = $this->getAccessibleMock(BrevoFinisher::class, ['parseOption'], [], '', false);
+        $mockedFinisher->method('parseOption')->willReturn('05.04.1984');
+        $mockedFinisher->_set('finisherContext', $finisherContext);
+        $mockedFinisher->_set('options', ['additionalAttributes' => ['BIRTHDAY' => '{date-1}']]);
+
+        self::assertSame('1984-04-05', $mockedFinisher->_call('parseAttributeOption', 'additionalAttributes.BIRTHDAY'));
     }
 
     #[Test]

@@ -21,7 +21,9 @@ use Psr\Log\LoggerAwareTrait;
 use StudioMitte\Brevo\ApiWrapper;
 use StudioMitte\Brevo\Configuration;
 use StudioMitte\Brevo\Events\FormFinisherAttributeEvent;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
@@ -159,25 +161,41 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
     {
         $attributes = [];
         if ($firstNameAttribute = $this->extensionConfiguration->getAttributeFirstName()) {
-            $attributes[$firstNameAttribute] = $this->parseOption('firstName');
+            $attributes[$firstNameAttribute] = $this->parseAttributeOption('firstName');
         }
         if ($lastNameAttribute = $this->extensionConfiguration->getAttributeLastName()) {
-            $attributes[$lastNameAttribute] = $this->parseOption('lastName');
+            $attributes[$lastNameAttribute] = $this->parseAttributeOption('lastName');
         }
         if ($trackingAttribute = $this->extensionConfiguration->getAttributeTracking()) {
-            $attributes[$trackingAttribute] = $this->parseOption('tracking');
+            $attributes[$trackingAttribute] = $this->parseAttributeOption('tracking');
         }
 
         // additional attribute mappings
-        $additionalAttributes = (array)($this->parseOption('additionalAttributes') ?? []);
-        foreach ($additionalAttributes as $key => $value) {
-            $attributes[$key] = $value;
+        foreach (array_keys((array)($this->options['additionalAttributes'] ?? [])) as $key) {
+            $attributes[$key] = $this->parseAttributeOption('additionalAttributes.' . $key);
         }
 
         $event = new FormFinisherAttributeEvent($this, $attributes);
         $this->eventDispatcher->dispatch($event);
 
         return array_filter($event->getAttributes(), static fn(mixed $value): bool => $value !== null);
+    }
+
+    /**
+     * Date fields are rendered with their display format (e.g. "d.m.Y"), the API only accepts "Y-m-d"
+     */
+    protected function parseAttributeOption(string $optionPath): mixed
+    {
+        $rawValue = ArrayUtility::isValidPath($this->options, $optionPath, '.')
+            ? ArrayUtility::getValueByPath($this->options, $optionPath, '.')
+            : null;
+        if (is_string($rawValue) && preg_match('/^{([^}]+)}$/', $rawValue, $matches)) {
+            $formValue = ObjectAccess::getPropertyPath($this->finisherContext->getFormRuntime(), $matches[1]);
+            if ($formValue instanceof \DateTimeInterface) {
+                return $formValue->format('Y-m-d');
+            }
+        }
+        return $this->parseOption($optionPath);
     }
 
     protected function getRedirectionUrl(): string
