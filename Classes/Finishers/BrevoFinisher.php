@@ -12,16 +12,15 @@ namespace StudioMitte\Brevo\Finishers;
  * of the License, or any later version.
  */
 
+use Brevo\Brevo;
+use Brevo\Contacts\Requests\CreateContactRequest;
+use Brevo\Contacts\Requests\CreateDoiContactRequest;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Brevo\Client\Api\ContactsApi;
-use Brevo\Client\Model\CreateContact;
-use Brevo\Client\Model\CreateDoiContact;
 use StudioMitte\Brevo\ApiWrapper;
 use StudioMitte\Brevo\Configuration;
 use StudioMitte\Brevo\Events\FormFinisherAttributeEvent;
-use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -35,22 +34,19 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
 
     protected ?Configuration $extensionConfiguration = null;
 
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
-
-    public function __construct(string $finisherIdentifier = '')
-    {
+    public function __construct(
+        protected readonly EventDispatcherInterface $eventDispatcher,
+    ) {
         try {
             $this->extensionConfiguration = new Configuration();
-        } catch (\RuntimeException $e) {
-            $this->logger?->error('Brevo finisher skipped: ' . $e->getMessage());
+        } catch (\RuntimeException) {
         }
-        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
     }
 
     protected function executeInternal(): void
     {
         if ($this->extensionConfiguration === null) {
+            $this->logger?->error('Brevo finisher skipped: no API key configured');
             $this->setFinisherSubscribedVariable(0);
             return;
         }
@@ -75,29 +71,27 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
     protected function addEntryToBrevo(): bool
     {
         try {
-            $apiInstance = $this->getApi();
+            $client = $this->getApi();
             if ($this->extensionConfiguration->isDoi()) {
-                $createContact = new CreateDoiContact();
-                $createContact
-                    ->setEmail($this->parseOption('email'))
-                    ->setIncludeListIds($this->getEnrichedListIds())
-                    ->setTemplateId($this->getDoiTemplateId())
-                    ->setAttributes($this->getAttributes())
-                    ->setRedirectionUrl($this->getRedirectionUrl());
-                $apiInstance->createDoiContact($createContact);
+                $client->contacts->createDoiContact(new CreateDoiContactRequest([
+                    'email' => (string)$this->parseOption('email'),
+                    'includeListIds' => $this->getEnrichedListIds(),
+                    'templateId' => $this->getDoiTemplateId(),
+                    'attributes' => $this->getAttributes(),
+                    'redirectionUrl' => $this->getRedirectionUrl(),
+                ]));
             } else {
-                $createContact = new CreateContact();
-                $createContact
-                    ->setEmail($this->parseOption('email'))
-                    ->setUpdateEnabled(true)
-                    ->setListIds($this->getEnrichedListIds())
-                    ->setAttributes($this->getAttributes());
-                $apiInstance->createContact($createContact);
+                $client->contacts->createContact(new CreateContactRequest([
+                    'email' => (string)$this->parseOption('email'),
+                    'updateEnabled' => true,
+                    'listIds' => $this->getEnrichedListIds(),
+                    'attributes' => $this->getAttributes(),
+                ]));
             }
             return true;
         } catch (\Exception $exception) {
             // todo: should we forward it to the user?
-            $this->logger->error($exception->getMessage());
+            $this->logger?->error($exception->getMessage());
             return false;
         }
     }
@@ -125,6 +119,9 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
         return $this->isEnabled();
     }
 
+    /**
+     * @return list<int>
+     */
     protected function getEnrichedListIds(): array
     {
         $defaultListsFromForm = $this->parseOption('defaultListIds');
@@ -148,13 +145,13 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
                 }
             }
         }
-        return array_unique($lists);
+        return array_values(array_unique($lists));
     }
 
     /**
-     * @return object
+     * @return array<string, mixed>
      */
-    protected function getAttributes(): object
+    protected function getAttributes(): array
     {
         $attributes = [];
         if ($firstNameAttribute = $this->extensionConfiguration->getAttributeFirstName()) {
@@ -175,9 +172,8 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
 
         $event = new FormFinisherAttributeEvent($this, $attributes);
         $this->eventDispatcher->dispatch($event);
-        $attributes = $event->getAttributes();
 
-        return (object)$attributes;
+        return array_filter($event->getAttributes(), static fn(mixed $value): bool => $value !== null);
     }
 
     protected function getRedirectionUrl(): string
@@ -186,15 +182,13 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
             'parameter' => $this->getDoiRedirectPageId(),
             'forceAbsoluteUrl' => true,
         ];
-        // TYPO3 v14: AbstractFinisher::getTypoScriptFrontendController() was removed and
-        // ContentObjectRenderer::typoLink_URL() is superseded by createUrl().
         $contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $contentObjectRenderer->setRequest($this->finisherContext->getRequest());
         return $contentObjectRenderer->createUrl($typolinkConfiguration);
     }
 
-    protected function getApi(): ContactsApi
+    protected function getApi(): Brevo
     {
-        return new ContactsApi(null, ApiWrapper::getConfig());
+        return ApiWrapper::getClient();
     }
 }

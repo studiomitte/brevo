@@ -1,17 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StudioMitte\Brevo\Tests\Unit;
 
+use PHPUnit\Framework\Attributes\Test;
 use StudioMitte\Brevo\Configuration;
-use TYPO3\TestingFramework\Core\BaseTestCase;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-class ConfigurationTest extends BaseTestCase
+final class ConfigurationTest extends UnitTestCase
 {
-
-    /**
-     * @test
-     */
-    public function configurationIsProperlyReturned()
+    #[Test]
+    public function configurationIsProperlyReturned(): void
     {
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['brevo'] = [
             'apiKey' => 'some api keys',
@@ -25,20 +25,18 @@ class ConfigurationTest extends BaseTestCase
         ];
 
         $configuration = new Configuration();
-        self::assertEquals('some api keys', $configuration->getApiKey());
-        self::assertEquals('VORNAME', $configuration->getAttributeFirstName());
-        self::assertEquals('NACHNAME', $configuration->getAttributeLastName());
-        self::assertEquals('SOURCE', $configuration->getAttributeTracking());
-        self::assertEquals([2], $configuration->getDefaultListIds());
+        self::assertSame('some api keys', $configuration->getApiKey());
+        self::assertSame('VORNAME', $configuration->getAttributeFirstName());
+        self::assertSame('NACHNAME', $configuration->getAttributeLastName());
+        self::assertSame('SOURCE', $configuration->getAttributeTracking());
+        self::assertSame([2], $configuration->getDefaultListIds());
         self::assertTrue($configuration->isDoi());
-        self::assertEquals(123, $configuration->getDoiRedirectPageId());
-        self::assertEquals(7, $configuration->getDoiTemplateId());
+        self::assertSame(123, $configuration->getDoiRedirectPageId());
+        self::assertSame(7, $configuration->getDoiTemplateId());
     }
 
-    /**
-     * @test
-     */
-    public function missingApiKeyThrowsException()
+    #[Test]
+    public function missingApiKeyThrowsException(): void
     {
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['brevo'] = [
             'some' => 'value',

@@ -12,17 +12,15 @@ namespace StudioMitte\Brevo;
  * of the License, or any later version.
  */
 
-use Brevo\Client\Configuration;
-use StudioMitte\Brevo\Configuration as ExtensionConfiguration;
+use Brevo\Brevo;
 
 /**
- * Wrapper for the brevo api giving back a pre-configured API
+ * Wrapper for the brevo api giving back a pre-configured client
  */
 class ApiWrapper
 {
-    public static function getConfig(): Configuration
+    public static function getClient(): Brevo
     {
-        $configuration = new ExtensionConfiguration();
-        return Configuration::getDefaultConfiguration()->setApiKey('api-key', $configuration->getApiKey());
+        return new Brevo(apiKey: new Configuration()->getApiKey());
     }
 }

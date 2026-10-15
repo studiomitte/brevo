@@ -1,25 +1,17 @@
 services:
-  _defaults:
-    autowire: true
-    autoconfigure: true
-    public: false
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
 
-  # Finisher is instantiated via GeneralUtility::makeInstance() from
-  # FormDefinition::createFinisher(). Without an explicit service registration it
-  # is invisible to the container, so the inject* setters of AbstractFinisher
-  # (translationService, viewFactory) never run and submitting the form fatals
-  # with "Typed property ...::$translationService must not be accessed before
-  # initialization". public: true keeps it in the container graph (no pruning)
-  # and ensures the setters are applied.
-  StudioMitte\Brevo\Finishers\BrevoFinisher:
-    public: true
+    StudioMitte\Brevo\:
+        resource: '../Classes/*'
+        exclude:
+            - '../Classes/Configuration.php'
+            - '../Classes/Events/*'
 
-  StudioMitte\Brevo\Command\TestCommand:
-    tags:
-      - name: 'console.command'
-        command: 'brevo:test'
-        schedulable: false
-
-  StudioMitte\Brevo\Report\IntegrationReport:
-    tags:
-      - name: reports.report
+    # EXT:form creates finishers through GeneralUtility::makeInstance(), so the finisher
+    # must be public to receive its dependencies and non-shared to get a fresh instance per form.
+    StudioMitte\Brevo\Finishers\BrevoFinisher:
+        public: true
+        shared: false
