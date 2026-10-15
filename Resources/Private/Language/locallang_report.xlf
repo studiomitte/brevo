@@ -9,6 +9,42 @@
             <trans-unit id="report.description" resname="report.description">
                 <source>Information about the integration of Brevo</source>
             </trans-unit>
+            <trans-unit id="error.title" resname="error.title">
+                <source>Brevo API could not be queried</source>
+            </trans-unit>
+            <trans-unit id="error.details" resname="error.details">
+                <source>Details</source>
+            </trans-unit>
+            <trans-unit id="error.status" resname="error.status">
+                <source>HTTP status</source>
+            </trans-unit>
+            <trans-unit id="error.code" resname="error.code">
+                <source>Error code</source>
+            </trans-unit>
+            <trans-unit id="error.apiKey" resname="error.apiKey">
+                <source>Configured API key</source>
+            </trans-unit>
+            <trans-unit id="error.apiKey.none" resname="error.apiKey.none">
+                <source>none</source>
+            </trans-unit>
+            <trans-unit id="error.exception" resname="error.exception">
+                <source>Exception</source>
+            </trans-unit>
+            <trans-unit id="error.hint.missingApiKey" resname="error.hint.missingApiKey">
+                <source>No API key configured. Add it in Admin Tools &gt; Settings &gt; Extension Configuration &gt; brevo.</source>
+            </trans-unit>
+            <trans-unit id="error.hint.unauthorizedIp" resname="error.hint.unauthorizedIp">
+                <source>The IP address of this server is not authorised for the API key. Add it to the authorised IPs in your Brevo account:</source>
+            </trans-unit>
+            <trans-unit id="error.hint.invalidApiKey" resname="error.hint.invalidApiKey">
+                <source>The API key was rejected. Check that the configured key is valid and active:</source>
+            </trans-unit>
+            <trans-unit id="error.hint.rateLimit" resname="error.hint.rateLimit">
+                <source>The Brevo rate limit has been reached. Try again in a few minutes.</source>
+            </trans-unit>
+            <trans-unit id="error.hint.connection" resname="error.hint.connection">
+                <source>The Brevo API could not be reached. Check the outgoing network connection and proxy settings of this server.</source>
+            </trans-unit>
             <trans-unit id="account" resname="account">
                 <source>Account</source>
             </trans-unit>
