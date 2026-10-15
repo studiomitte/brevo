@@ -1,15 +1,17 @@
 services:
-  _defaults:
-    autowire: true
-    autoconfigure: true
-    public: false
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
 
-  StudioMitte\Brevo\Command\TestCommand:
-    tags:
-      - name: 'console.command'
-        command: 'brevo:test'
-        schedulable: false
+    StudioMitte\Brevo\:
+        resource: '../Classes/*'
+        exclude:
+            - '../Classes/Configuration.php'
+            - '../Classes/Events/*'
 
-  StudioMitte\Brevo\Report\IntegrationReport:
-    tags:
-      - name: reports.report
+    # EXT:form creates finishers through GeneralUtility::makeInstance(), so the finisher
+    # must be public to receive its dependencies and non-shared to get a fresh instance per form.
+    StudioMitte\Brevo\Finishers\BrevoFinisher:
+        public: true
+        shared: false

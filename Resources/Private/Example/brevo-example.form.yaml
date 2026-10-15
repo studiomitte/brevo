@@ -1,83 +1,71 @@
-
 renderingOptions:
-  submitButtonLabel: Submit
+    submitButtonLabel: Submit
 type: Form
 identifier: brevo
 label: brevo
 prototypeName: standard
 finishers:
-  -
-    renderingOptions:
-      enabled: '{checkbox-1}'
-    options:
-      firstName: '{text-1}'
-      lastName: '{text-3}'
-      email: '{text-2}'
-      tracking: trackingvalue
-      additionalListIds: '{multicheckbox-1}'
-      additionalAttributes:
-        salutation: '{salutation}'
+    - options:
+          renderingOptions:
+              enabled: '{checkbox-1}'
+          firstName: '{text-1}'
+          lastName: '{text-3}'
+          email: '{text-2}'
+          tracking: trackingvalue
+          additionalListIds: '{multicheckbox-1}'
+          additionalAttributes:
+              salutation: '{salutation}'
 
-      # override global settings
-      # doiTemplateId: '14'
-      # defaultListIds: '12,34'
-    identifier: Brevo
-  -
-    options:
-      message: 'Thanks for providing all your information'
-      contentElementUid: ''
-    identifier: Confirmation
+          # override global settings
+          # doiTemplateId: '14'
+          # defaultListIds: '12,34'
+      identifier: Brevo
+    - options:
+          message: 'Thanks for providing all your information'
+          contentElementUid: ''
+      identifier: Confirmation
 renderables:
-  -
-    renderingOptions:
-      previousButtonLabel: 'Previous step'
-      nextButtonLabel: 'Next step'
-    type: Page
-    identifier: page-1
-    label: Step
-    renderables:
-      -
-        properties:
-          options:
-            '1': 'Mr.'
-            '2': 'Mrs.'
-        type: SingleSelect
-        identifier: salutation
-        label: Salutation
-      -
-        defaultValue: ''
-        type: Text
-        identifier: text-1
-        label: Vorname
-        properties:
-          elementDescription: ''
-      -
-        defaultValue: ''
-        type: Text
-        identifier: text-3
-        label: Nachname
-      -
-        defaultValue: ''
-        type: Text
-        identifier: text-2
-        label: Email
-        properties:
-          fluidAdditionalAttributes:
-            required: required
-        validators:
-          -
-            identifier: EmailAddress
-          -
-            identifier: NotEmpty
-      -
-        properties:
-          options:
-            8: 'Interest one with ID 8'
-            15: 'Interest two with ID 15'
-        type: MultiCheckbox
-        identifier: multicheckbox-1
-        label: Interests
-      -
-        type: Checkbox
-        identifier: checkbox-1
-        label: Newsletter
+    - renderingOptions:
+          previousButtonLabel: 'Previous step'
+          nextButtonLabel: 'Next step'
+      type: Page
+      identifier: page-1
+      label: Step
+      renderables:
+          - properties:
+                options:
+                    '1': 'Mr.'
+                    '2': 'Mrs.'
+            type: SingleSelect
+            identifier: salutation
+            label: Salutation
+          - defaultValue: ''
+            type: Text
+            identifier: text-1
+            label: Vorname
+            properties:
+                elementDescription: ''
+          - defaultValue: ''
+            type: Text
+            identifier: text-3
+            label: Nachname
+          - defaultValue: ''
+            type: Text
+            identifier: text-2
+            label: Email
+            properties:
+                fluidAdditionalAttributes:
+                    required: required
+            validators:
+                - identifier: EmailAddress
+                - identifier: NotEmpty
+          - properties:
+                options:
+                    8: 'Interest one with ID 8'
+                    15: 'Interest two with ID 15'
+            type: MultiCheckbox
+            identifier: multicheckbox-1
+            label: Interests
+          - type: Checkbox
+            identifier: checkbox-1
+            label: Newsletter

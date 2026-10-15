@@ -1,53 +1,90 @@
 <?php
 
+declare(strict_types=1);
+
 namespace StudioMitte\Brevo\Tests\Unit\Finishers;
 
-use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\Attributes\AllowMockObjectsWithoutExpectations;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use StudioMitte\Brevo\Configuration;
 use StudioMitte\Brevo\Finishers\BrevoFinisher;
-use TYPO3\TestingFramework\Core\AccessibleObjectInterface;
-use TYPO3\TestingFramework\Core\BaseTestCase;
+use TYPO3\CMS\Form\Domain\Finishers\FinisherContext;
+use TYPO3\CMS\Form\Domain\Runtime\FormRuntime;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
-class BrevoFinisherTest extends BaseTestCase
+#[AllowMockObjectsWithoutExpectations]
+final class BrevoFinisherTest extends UnitTestCase
 {
-
-    /**
-     * @test
-     */
-    public function attributesAreGenerated()
+    #[Test]
+    public function attributesAreGenerated(): void
     {
-        /** @var BrevoFinisher|MockObject|AccessibleObjectInterface $mockedFinisher */
-        $mockedFinisher = $this->getAccessibleMock(BrevoFinisher::class, ['parseOption'], [], '', false);
-        $mockedFinisher->expects(self::any())->method('parseOption')->willReturnArgument(0);
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['brevo'] = [
             'apiKey' => 'some api keys',
             'attributeFirstName' => 'FIRST',
             'attributeLastName' => 'LAST',
             'attributeTracking' => 'SOURCE',
         ];
+        $eventDispatcher = new class() implements EventDispatcherInterface {
+            public function dispatch(object $event): object
+            {
+                return $event;
+            }
+        };
+        $mockedFinisher = $this->getAccessibleMock(BrevoFinisher::class, ['parseOption'], [$eventDispatcher]);
+        $mockedFinisher->method('parseOption')->willReturnCallback(static fn(string $option): ?string => $option === 'additionalAttributes' ? null : $option);
         $mockedFinisher->_set('extensionConfiguration', new Configuration());
 
-        $attributes = new \stdClass();
-        $attributes->FIRST = 'firstName';
-        $attributes->LAST = 'lastName';
-        $attributes->SOURCE = 'tracking';
-        self::assertEquals($attributes, $mockedFinisher->_call('getAttributes'));
+        $expected = [
+            'FIRST' => 'firstName',
+            'LAST' => 'lastName',
+            'SOURCE' => 'tracking',
+        ];
+        self::assertSame($expected, (array)$mockedFinisher->_call('getAttributes'));
+    }
+
+    #[Test]
+    public function dateAttributesAreFormattedForTheApi(): void
+    {
+        $formRuntime = $this->createMock(FormRuntime::class);
+        $formRuntime->method('offsetExists')->willReturn(true);
+        $formRuntime->method('offsetGet')->with('date-1')->willReturn(new \DateTime('1984-04-05'));
+        $finisherContext = $this->createMock(FinisherContext::class);
+        $finisherContext->method('getFormRuntime')->willReturn($formRuntime);
+
+        $mockedFinisher = $this->getAccessibleMock(BrevoFinisher::class, ['parseOption'], [], '', false);
+        $mockedFinisher->method('parseOption')->willReturn('05.04.1984');
+        $mockedFinisher->_set('finisherContext', $finisherContext);
+        $mockedFinisher->_set('options', ['additionalAttributes' => ['BIRTHDAY' => '{date-1}']]);
+
+        self::assertSame('1984-04-05', $mockedFinisher->_call('parseAttributeOption', 'additionalAttributes.BIRTHDAY'));
+    }
+
+    #[Test]
+    #[DataProvider('newsletterSubscriptionIsEnabledReturnsValueDataProvider')]
+    public function newsletterSubscriptionIsEnabledSupportsLegacyOptionPath(mixed $given, bool $expected): void
+    {
+        $mockedFinisher = $this->getAccessibleMock(BrevoFinisher::class, ['parseOption'], [], '', false);
+        $mockedFinisher->method('parseOption')->willReturn($given);
+        $mockedFinisher->_set('options', ['enabled' => $given]);
+        self::assertSame($expected, $mockedFinisher->_call('newsletterSubscriptionIsEnabled'));
+    }
+
+    #[Test]
+    #[DataProvider('newsletterSubscriptionIsEnabledReturnsValueDataProvider')]
+    public function newsletterSubscriptionIsEnabledReturnsValue(mixed $given, bool $expected): void
+    {
+        $mockedFinisher = $this->getAccessibleMock(BrevoFinisher::class, ['parseOption'], [], '', false);
+        $mockedFinisher->method('parseOption')->willReturn($given);
+        $mockedFinisher->_set('options', ['renderingOptions' => ['enabled' => $given]]);
+        self::assertSame($expected, $mockedFinisher->_call('newsletterSubscriptionIsEnabled'));
     }
 
     /**
-     * @test
-     * @dataProvider newsletterSubscriptionIsEnabledReturnsValueDataProvider
-     * @param mixed $given
-     * @param bool $expected
+     * @return array<string, array{mixed, bool}>
      */
-    public function newsletterSubscriptionIsEnabledReturnsValue($given, bool $expected)
-    {
-        $mockedFinisher = $this->getAccessibleMock(BrevoFinisher::class, ['parseOption'], [], '', false);
-        $mockedFinisher->expects(self::any())->method('parseOption')->willReturn($given);
-        self::assertEquals($expected, $mockedFinisher->_call('newsletterSubscriptionIsEnabled'));
-    }
-
-    public function newsletterSubscriptionIsEnabledReturnsValueDataProvider(): array
+    public static function newsletterSubscriptionIsEnabledReturnsValueDataProvider(): array
     {
         return [
             'true' => [true, true],

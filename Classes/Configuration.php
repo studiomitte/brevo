@@ -22,13 +22,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class Configuration
 {
-
     /** @var string */
     protected $apiKey;
 
-    /**
-     * @var int[]
-     */
+    /** @var int[] */
     protected $defaultListIds;
 
     /** @var bool */
@@ -63,8 +60,7 @@ class Configuration
 
             $this->doi = (bool)($settings['doi'] ?? true);
             $this->defaultListIds = GeneralUtility::intExplode(',', $settings['defaultListIds'] ?? '', true);
-        } catch (ExtensionConfigurationExtensionNotConfiguredException $e) {
-        } catch (ExtensionConfigurationPathDoesNotExistException $e) {
+        } catch (ExtensionConfigurationExtensionNotConfiguredException|ExtensionConfigurationPathDoesNotExistException) {
         }
 
         if (empty($this->apiKey)) {
@@ -77,25 +73,16 @@ class Configuration
         return $this->apiKey;
     }
 
-    /**
-     * @return bool
-     */
     public function isDoi(): bool
     {
         return $this->doi;
     }
 
-    /**
-     * @return int
-     */
     public function getDoiRedirectPageId(): int
     {
         return $this->doiRedirectPageId;
     }
 
-    /**
-     * @return int
-     */
     public function getDoiTemplateId(): int
     {
         return $this->doiTemplateId;
@@ -109,25 +96,16 @@ class Configuration
         return $this->defaultListIds;
     }
 
-    /**
-     * @return string
-     */
     public function getAttributeFirstName(): string
     {
         return $this->attributeFirstName;
     }
 
-    /**
-     * @return string
-     */
     public function getAttributeLastName(): string
     {
         return $this->attributeLastName;
     }
 
-    /**
-     * @return string
-     */
     public function getAttributeTracking(): string
     {
         return $this->attributeTracking;

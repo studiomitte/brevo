@@ -12,18 +12,20 @@ namespace StudioMitte\Brevo\Finishers;
  * of the License, or any later version.
  */
 
+use Brevo\Brevo;
+use Brevo\Contacts\Requests\CreateContactRequest;
+use Brevo\Contacts\Requests\CreateDoiContactRequest;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-use Brevo\Client\Api\ContactsApi;
-use Brevo\Client\Model\CreateContact;
-use Brevo\Client\Model\CreateDoiContact;
 use StudioMitte\Brevo\ApiWrapper;
 use StudioMitte\Brevo\Configuration;
 use StudioMitte\Brevo\Events\FormFinisherAttributeEvent;
-use TYPO3\CMS\Core\EventDispatcher\EventDispatcher;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Reflection\ObjectAccess;
 use TYPO3\CMS\Form\Domain\Finishers\AbstractFinisher;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 /**
  * Finisher for EXT:form sending the data to brevo
@@ -32,20 +34,25 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
 {
     use LoggerAwareTrait;
 
-    /** @var Configuration */
-    protected Configuration $extensionConfiguration;
+    protected ?Configuration $extensionConfiguration = null;
 
-    /** @var EventDispatcherInterface */
-    protected $eventDispatcher;
-
-    public function __construct(string $finisherIdentifier = '')
-    {
-        $this->extensionConfiguration = new Configuration();
-        $this->eventDispatcher = GeneralUtility::makeInstance(EventDispatcher::class);
+    public function __construct(
+        protected readonly EventDispatcherInterface $eventDispatcher,
+    ) {
+        try {
+            $this->extensionConfiguration = new Configuration();
+        } catch (\RuntimeException) {
+        }
     }
 
     protected function executeInternal(): void
     {
+        if ($this->extensionConfiguration === null) {
+            $this->logger?->error('Brevo finisher skipped: no API key configured');
+            $this->setFinisherSubscribedVariable(0);
+            return;
+        }
+
         if (!$this->newsletterSubscriptionIsEnabled()) {
             $this->setFinisherSubscribedVariable(0);
             return;
@@ -66,29 +73,27 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
     protected function addEntryToBrevo(): bool
     {
         try {
-            $apiInstance = $this->getApi();
+            $client = $this->getApi();
             if ($this->extensionConfiguration->isDoi()) {
-                $createContact = new CreateDoiContact();
-                $createContact
-                    ->setEmail($this->parseOption('email'))
-                    ->setIncludeListIds($this->getEnrichedListIds())
-                    ->setTemplateId($this->getDoiTemplateId())
-                    ->setAttributes($this->getAttributes())
-                    ->setRedirectionUrl($this->getRedirectionUrl());
-                $apiInstance->createDoiContact($createContact);
+                $client->contacts->createDoiContact(new CreateDoiContactRequest([
+                    'email' => (string)$this->parseOption('email'),
+                    'includeListIds' => $this->getEnrichedListIds(),
+                    'templateId' => $this->getDoiTemplateId(),
+                    'attributes' => $this->getAttributes(),
+                    'redirectionUrl' => $this->getRedirectionUrl(),
+                ]));
             } else {
-                $createContact = new CreateContact();
-                $createContact
-                    ->setEmail($this->parseOption('email'))
-                    ->setUpdateEnabled(true)
-                    ->setListIds($this->getEnrichedListIds())
-                    ->setAttributes($this->getAttributes());
-                $apiInstance->createContact($createContact);
+                $client->contacts->createContact(new CreateContactRequest([
+                    'email' => (string)$this->parseOption('email'),
+                    'updateEnabled' => true,
+                    'listIds' => $this->getEnrichedListIds(),
+                    'attributes' => $this->getAttributes(),
+                ]));
             }
             return true;
         } catch (\Exception $exception) {
             // todo: should we forward it to the user?
-            $this->logger->error($exception->getMessage());
+            $this->logger?->error($exception->getMessage());
             return false;
         }
     }
@@ -113,9 +118,16 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
 
     protected function newsletterSubscriptionIsEnabled(): bool
     {
+        // Forms created with the form editor before version 3 stored the flag in "options.enabled"
+        if (!isset($this->options['renderingOptions']['enabled']) && isset($this->options['enabled'])) {
+            return (bool)$this->parseOption('enabled');
+        }
         return $this->isEnabled();
     }
 
+    /**
+     * @return list<int>
+     */
     protected function getEnrichedListIds(): array
     {
         $defaultListsFromForm = $this->parseOption('defaultListIds');
@@ -139,36 +151,51 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
                 }
             }
         }
-        return array_unique($lists);
+        return array_values(array_unique($lists));
     }
 
     /**
-     * @return object
+     * @return array<string, mixed>
      */
-    protected function getAttributes(): object
+    protected function getAttributes(): array
     {
         $attributes = [];
         if ($firstNameAttribute = $this->extensionConfiguration->getAttributeFirstName()) {
-            $attributes[$firstNameAttribute] = $this->parseOption('firstName');
+            $attributes[$firstNameAttribute] = $this->parseAttributeOption('firstName');
         }
         if ($lastNameAttribute = $this->extensionConfiguration->getAttributeLastName()) {
-            $attributes[$lastNameAttribute] = $this->parseOption('lastName');
+            $attributes[$lastNameAttribute] = $this->parseAttributeOption('lastName');
         }
         if ($trackingAttribute = $this->extensionConfiguration->getAttributeTracking()) {
-            $attributes[$trackingAttribute] = $this->parseOption('tracking');
+            $attributes[$trackingAttribute] = $this->parseAttributeOption('tracking');
         }
 
         // additional attribute mappings
-        $additionalAttributes = (array)($this->parseOption('additionalAttributes') ?? []);
-        foreach ($additionalAttributes as $key => $value) {
-            $attributes[$key] = $value;
+        foreach (array_keys((array)($this->options['additionalAttributes'] ?? [])) as $key) {
+            $attributes[$key] = $this->parseAttributeOption('additionalAttributes.' . $key);
         }
 
         $event = new FormFinisherAttributeEvent($this, $attributes);
         $this->eventDispatcher->dispatch($event);
-        $attributes = $event->getAttributes();
 
-        return (object)$attributes;
+        return array_filter($event->getAttributes(), static fn(mixed $value): bool => $value !== null);
+    }
+
+    /**
+     * Date fields are rendered with their display format (e.g. "d.m.Y"), the API only accepts "Y-m-d"
+     */
+    protected function parseAttributeOption(string $optionPath): mixed
+    {
+        $rawValue = ArrayUtility::isValidPath($this->options, $optionPath, '.')
+            ? ArrayUtility::getValueByPath($this->options, $optionPath, '.')
+            : null;
+        if (is_string($rawValue) && preg_match('/^{([^}]+)}$/', $rawValue, $matches)) {
+            $formValue = ObjectAccess::getPropertyPath($this->finisherContext->getFormRuntime(), $matches[1]);
+            if ($formValue instanceof \DateTimeInterface) {
+                return $formValue->format('Y-m-d');
+            }
+        }
+        return $this->parseOption($optionPath);
     }
 
     protected function getRedirectionUrl(): string
@@ -177,11 +204,13 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
             'parameter' => $this->getDoiRedirectPageId(),
             'forceAbsoluteUrl' => true,
         ];
-        return $this->getTypoScriptFrontendController()->cObj->typoLink_URL($typolinkConfiguration);
+        $contentObjectRenderer = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $contentObjectRenderer->setRequest($this->finisherContext->getRequest());
+        return $contentObjectRenderer->createUrl($typolinkConfiguration);
     }
 
-    protected function getApi(): ContactsApi
+    protected function getApi(): Brevo
     {
-        return new ContactsApi(null, ApiWrapper::getConfig());
+        return ApiWrapper::getClient();
     }
 }
