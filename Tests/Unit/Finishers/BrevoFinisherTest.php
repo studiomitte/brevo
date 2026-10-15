@@ -44,6 +44,16 @@ final class BrevoFinisherTest extends UnitTestCase
 
     #[Test]
     #[DataProvider('newsletterSubscriptionIsEnabledReturnsValueDataProvider')]
+    public function newsletterSubscriptionIsEnabledSupportsLegacyOptionPath(mixed $given, bool $expected): void
+    {
+        $mockedFinisher = $this->getAccessibleMock(BrevoFinisher::class, ['parseOption'], [], '', false);
+        $mockedFinisher->method('parseOption')->willReturn($given);
+        $mockedFinisher->_set('options', ['enabled' => $given]);
+        self::assertSame($expected, $mockedFinisher->_call('newsletterSubscriptionIsEnabled'));
+    }
+
+    #[Test]
+    #[DataProvider('newsletterSubscriptionIsEnabledReturnsValueDataProvider')]
     public function newsletterSubscriptionIsEnabledReturnsValue(mixed $given, bool $expected): void
     {
         $mockedFinisher = $this->getAccessibleMock(BrevoFinisher::class, ['parseOption'], [], '', false);

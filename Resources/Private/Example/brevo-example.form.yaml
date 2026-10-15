@@ -5,9 +5,9 @@ identifier: brevo
 label: brevo
 prototypeName: standard
 finishers:
-    - renderingOptions:
-          enabled: '{checkbox-1}'
-      options:
+    - options:
+          renderingOptions:
+              enabled: '{checkbox-1}'
           firstName: '{text-1}'
           lastName: '{text-3}'
           email: '{text-2}'

@@ -116,6 +116,10 @@ class BrevoFinisher extends AbstractFinisher implements LoggerAwareInterface
 
     protected function newsletterSubscriptionIsEnabled(): bool
     {
+        // Forms created with the form editor before version 3 stored the flag in "options.enabled"
+        if (!isset($this->options['renderingOptions']['enabled']) && isset($this->options['enabled'])) {
+            return (bool)$this->parseOption('enabled');
+        }
         return $this->isEnabled();
     }
 
