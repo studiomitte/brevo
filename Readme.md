@@ -7,6 +7,11 @@ Currently this extension supports *only* the form framework of the core but it w
 
 Currently this extension requires a composer based installation. Use `composer req studiomitte/brevo` to install it.
 
+Version 3 requires TYPO3 v14.3. Use version 2 for TYPO3 v11 - v13.
+
+The form configuration is picked up automatically (`Configuration/Form/Brevo/config.yaml`), no TypoScript include is needed.
+An overview of lists, attributes and templates of the connected account is available in the backend module *Reports > Brevo*.
+
 Head over to the extension configuration and provide all settings you need:
 
 ![Extension Configuration.png](Resources/Public/Screenshot/ExtensionConfiguration.png)
@@ -19,7 +24,8 @@ Head over to the extension configuration and provide all settings you need:
   - *Enable double optin*: Please always use double opt in!
   - *Page ID for redirect*: Page which a user is sent to after confirming double opt in
   - *DOI Template*: Id of brevo template which is used for DOI mails.
-- **Attributes**
+- **Attributes**: Names of the contact attributes in your Brevo account the form values are written to.
+  The defaults match the attributes Brevo creates for every account, so they usually can stay as they are.
   - *Attribute for first name*: Name of attribute used for the first name
   - *Attribute for last name*: Name of attribute used for the last name
   - *Attribute for tracking information*: Name of attribute used for the tracking information
@@ -35,10 +41,13 @@ A new finisher *Brevo Finisher* intercepts the data of the form and adds the con
 As the fields can be different for any form, you need to provide the mapping information for all important fields:
 
 - *Checkbox to enable*: Newsletter subscription must be optional. Therefore provide the checkbox which asks the user if a newsletter should be sent.
+  It is stored as `options.renderingOptions.enabled` of the finisher; `options.enabled` of forms created with version 2 is still respected.
 - *Field of email address*: Provide the field information which holds the email address
 - *Field of First/Last name*: Provide the field information which holds information about the name.
 - *Additional list ids*: Either provide the field information or a static comma separated list of contact lists a user should be added to.
 - *Additional tracking information*: This string is added to the contact and can be used just as information or by using this in the automation process to process the contact.
+
+Further attributes can be mapped with `additionalAttributes` (see example configuration). Values of date fields are sent as `Y-m-d`, the only date format accepted by Brevo.
 
 ## Additional hints
 
@@ -46,10 +55,7 @@ As the fields can be different for any form, you need to provide the mapping inf
 
 It is a bit tricky to get everything started. For sending mails the account needs to be validated. This is documented at https://help.brevo.com/hc/en-us/articles/360016175440
 
-In short you need
-
-1) At least **11** contacts. You can create any contact
-2) One campaign ready
+Follow the steps described there; the requirements are set by Brevo and change from time to time.
 
 ### (DOI) Double Opt-In Mails
 
